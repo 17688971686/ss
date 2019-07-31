@@ -14,7 +14,8 @@
 			grid : grid,
 			grid_SH:grid_SH,
 			getProjectById:getProjectById,
-			submitMonthReport:submitMonthReport
+			submitMonthReport:submitMonthReport,
+			allMonthReport:allMonthReport,//政府月报投资统计
 		};		
 		return service;	
 		
@@ -426,5 +427,40 @@
 					scrollable:true
 				};
 		}// end fun grid_SH
+		
+		
+		function allMonthReport(vm){
+			/*年份
+			var now = new Date();
+			var nowYear = now.getFullYear();
+			vm.projectSelectYears = [];
+			for(var i=5;i>=0;i--){
+				vm.projectSelectYears.push(nowYear-i);
+			}
+			*/
+			var httpOptions = {
+				method : "post",
+				url : url_project+"/getProjectMonth",
+				data : {
+					"projectName":vm.search.projectName,
+					"projectStage":vm.search.projectStage,
+					"projectIndustry":vm.search.projectIndustry,
+					"unitName":vm.search.unitName,
+					"planYear":vm.search.planYear,
+				}
+			}
+			
+			var httpSuccess = function success (response) {
+				console.log(response.data);
+			}
+			
+			common.http({
+				vm : vm,
+				$http : $http,
+				httpOptions : httpOptions,
+				success : httpSuccess
+			});
+		}
+		
 	}
 })();

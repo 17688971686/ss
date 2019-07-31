@@ -44,6 +44,13 @@
 						<option ng-repeat="x in vm.basicData.userUnit | unique: 'id'" value="{{x.id}}">{{x.unitName}}</option>
 			  		</select>
   				</td>
+  				<!--<td class="formAlignRight">年份：</td>
+                <td>
+                    <select style="height:30px;" ng-model="vm.search.year">
+                        <option value="">---请选择---</option>
+                        <option ng-repeat="x in vm.projectSelectYears" value="{{x}}" ng-selected="vm.projectListYear == x">{{x}}</option>
+                    </select>
+                </td>-->
   			</tr>
   			<tr>
   				<td colspan="6">
@@ -51,6 +58,103 @@
   				</td>
   			</tr>
   		</table>
+  </div>
+  <div class="toolbar">
+        <table class="table table-bordered table-striped" style="text-align: center;vertical-align: middle;">
+            <tr>
+                <td rowspan="2" style="vertical-align: middle;">本月计划完成投资:</td>
+                <td class="font-weight">1月份</td>
+                <td class="font-weight">2月份</td>
+                <td class="font-weight">3月份</td>
+                <td class="font-weight">4月份</td>
+                <td class="font-weight">5月份</td>
+                <td class="font-weight">6月份</td>
+                <td class="font-weight">7月份</td>
+                <td class="font-weight">8月份</td>
+                <td class="font-weight">9月份</td>
+                <td class="font-weight">10月份</td>
+                <td class="font-weight">11月份</td>
+                <td class="font-weight">12月份</td>
+                <td class="font-weight">总计</td>
+            </tr>
+            <tr>
+                <td style="height:37px;" ng-bind="vm.monthReport_1.thisMonthPlanInvestTotal"></td>
+                <td ng-bind="vm.monthReport_2.thisMonthPlanInvestTotal"></td>
+                <td ng-bind="vm.monthReport_3.thisMonthPlanInvestTotal"></td>
+                <td ng-bind="vm.monthReport_4.thisMonthPlanInvestTotal"></td>
+                <td ng-bind="vm.monthReport_5.thisMonthPlanInvestTotal"></td>
+                <td ng-bind="vm.monthReport_6.thisMonthPlanInvestTotal"></td>
+                <td ng-bind="vm.monthReport_7.thisMonthPlanInvestTotal"></td>
+                <td ng-bind="vm.monthReport_8.thisMonthPlanInvestTotal"></td>
+                <td ng-bind="vm.monthReport_9.thisMonthPlanInvestTotal"></td>
+                <td ng-bind="vm.monthReport_10.thisMonthPlanInvestTotal"></td>
+                <td ng-bind="vm.monthReport_11.thisMonthPlanInvestTotal"></td>
+                <td ng-bind="vm.monthReport_12.thisMonthPlanInvestTotal"></td>
+                <td ng-bind="vm.sumThisMonthPlanInvestTotal"></td>
+            </tr>
+            <tr>
+                <td rowspan="2" style="vertical-align: middle;">本月已完成投资:</td>
+                <td class="font-weight">1月份</td>
+                <td class="font-weight">2月份</td>
+                <td class="font-weight">3月份</td>
+                <td class="font-weight">4月份</td>
+                <td class="font-weight">5月份</td>
+                <td class="font-weight">6月份</td>
+                <td class="font-weight">7月份</td>
+                <td class="font-weight">8月份</td>
+                <td class="font-weight">9月份</td>
+                <td class="font-weight">10月份</td>
+                <td class="font-weight">11月份</td>
+                <td class="font-weight">12月份</td>
+                <td class="font-weight">总计</td>
+            </tr>
+            <tr>
+                <td style="height:37px;" ng-bind="vm.monthReport_1.thisMonthInvestTotal"></td>
+                <td ng-bind="vm.monthReport_2.thisMonthInvestTotal"></td>
+                <td ng-bind="vm.monthReport_3.thisMonthInvestTotal"></td>
+                <td ng-bind="vm.monthReport_4.thisMonthInvestTotal"></td>
+                <td ng-bind="vm.monthReport_5.thisMonthInvestTotal"></td>
+                <td ng-bind="vm.monthReport_6.thisMonthInvestTotal"></td>
+                <td ng-bind="vm.monthReport_7.thisMonthInvestTotal"></td>
+                <td ng-bind="vm.monthReport_8.thisMonthInvestTotal"></td>
+                <td ng-bind="vm.monthReport_9.thisMonthInvestTotal"></td>
+                <td ng-bind="vm.monthReport_10.thisMonthInvestTotal"></td>
+                <td ng-bind="vm.monthReport_11.thisMonthInvestTotal"></td>
+                <td ng-bind="vm.monthReport_12.thisMonthInvestTotal"></td>
+                <td ng-bind="vm.sumThisMonthInvestTotal"></td>
+            </tr>
+            <tr>
+                <td rowspan="2" style="vertical-align: middle;">累计完成投资:</td>
+                <td class="font-weight">1月份</td>
+                <td class="font-weight">2月份</td>
+                <td class="font-weight">3月份</td>
+                <td class="font-weight">4月份</td>
+                <td class="font-weight">5月份</td>
+                <td class="font-weight">6月份</td>
+                <td class="font-weight">7月份</td>
+                <td class="font-weight">8月份</td>
+                <td class="font-weight">9月份</td>
+                <td class="font-weight">10月份</td>
+                <td class="font-weight">11月份</td>
+                <td class="font-weight">12月份</td>
+                <td class="font-weight">总计</td>
+            </tr>
+            <tr>
+                <td style="height:37px;" ng-bind="vm.monthReport_1.actuallyFinishiInvestment"></td>
+                <td ng-bind="vm.monthReport_2.actuallyFinishiInvestment"></td>
+                <td ng-bind="vm.monthReport_3.actuallyFinishiInvestment"></td>
+                <td ng-bind="vm.monthReport_4.actuallyFinishiInvestment"></td>
+                <td ng-bind="vm.monthReport_5.actuallyFinishiInvestment"></td>
+                <td ng-bind="vm.monthReport_6.actuallyFinishiInvestment"></td>
+                <td ng-bind="vm.monthReport_7.actuallyFinishiInvestment"></td>
+                <td ng-bind="vm.monthReport_8.actuallyFinishiInvestment"></td>
+                <td ng-bind="vm.monthReport_9.actuallyFinishiInvestment"></td>
+                <td ng-bind="vm.monthReport_10.actuallyFinishiInvestment"></td>
+                <td ng-bind="vm.monthReport_11.actuallyFinishiInvestment"></td>
+                <td ng-bind="vm.monthReport_12.actuallyFinishiInvestment"></td>
+                <td>/</td>
+            </tr>
+        </table>
   </div>
   <div class="toolbar"></div>
     <form id="form" name="form"> 

@@ -183,4 +183,6 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 	 */
 	void moveProject(Map<String, Object> map);
 	
+	ProjectDto getProjectMonth(Map<String, Object> map);
+	
 }

@@ -8,7 +8,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sn.framework.odata.OdataFilter;
+import cs.common.BasicDataConfig;
 import cs.controller.CommonController;
 import cs.excelHelper.PoiExcel2k3Helper;
 import cs.excelHelper.PoiExcel2k7Helper;
@@ -47,6 +49,13 @@ public class ProjectController {
 		ODataObj odataObj = new ODataObj(request);
 		PageModelDto<ProjectDto> ProjectDtos = ProjectService.get(odataObj);
 		return ProjectDtos;
+	}
+
+	@RequestMapping(name = "获取项目月报信息", path = "getProjectMonth",method=RequestMethod.POST)
+	public @ResponseBody ProjectDto getProjectMonth(@RequestBody Map map) throws ParseException {
+		//默认条件
+//		return ProjectService.getProjectMonth(map);
+		return null;
 	}
 	
 	@RequiresPermissions("management/project#unitName#get")

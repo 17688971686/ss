@@ -1191,9 +1191,30 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
             entity.setUnitName("");
             entity.setProjectName(entity.getProjectName() + "(已移交)");
             super.repository.save(entity);
+            logger.info(String.format("项目移交成功,项目名称:%s", project.getProjectName()));
         }else{
-            throw new IllegalArgumentException("移交项目失败！");
+            throw new IllegalArgumentException(String.format("移交项目失败！项目ID:%s", projectId));
         }
+    }
+
+    @Override
+    public ProjectDto getProjectMonth(Map<String, Object> map) {
+        
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * FROM cs_project");
+        
+        NativeQuery query = super.repository.getSession().createNativeQuery(sql.toString());
+        query.setParameter("isMonthReport", true);
+        query.setParameter("isLateseVersion", true);
+        query.setParameter("projectInvestmentType", BasicDataConfig.projectInvestmentType_ZF);
+        query.setParameter("projectName", map.get("projectName"));
+        query.setParameter("projectStage", map.get("projectStage"));
+        query.setParameter("projectIndustry", map.get("projectIndustry"));
+        query.setParameter("unitName", map.get("unitName"));
+        query.setParameter("planYear", map.get("planYear"));
+        
+        query.addScalar("projectName",new StringType());
+        return null;
     }
 
 

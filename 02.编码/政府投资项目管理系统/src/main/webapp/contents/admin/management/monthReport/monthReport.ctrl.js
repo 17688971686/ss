@@ -73,6 +73,11 @@
 	   			.toArray();//社会投资项目行业
         };//end init
         
+		//默认查找当年，再加条件去查年月
+		vm.allMonthReport=function(){
+			monthReportSvc.allMonthReport(vm);
+		}
+		
         activate();
         function activate() {
         	vm.init();
@@ -95,12 +100,13 @@
         
         function page_list(){
         	monthReportSvc.grid(vm);
+        	vm.allMonthReport();
         	//查询
     		vm.search=function(){
     			var filters = [];
 				filters.push({field:'isLatestVersion',operator:'eq',value:true});//默认条件--项目最新版本
 				filters.push({field:'isMonthReport',operator:'eq',value:true});//默认条件--需要填报月报 
-				filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--社会投资
+				filters.push({field:'projectInvestmentType',operator:'eq',value:common.basicDataConfig().projectInvestmentType_ZF});//默认条件--政府投资
 				
 				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
 	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
@@ -114,7 +120,13 @@
      		   	if(vm.search.unitName !=null && vm.search.unitName !=''){//查询条件--建设单位
      			  filters.push({field:'unitName',operator:'contains',value:vm.search.unitName});
      		   	}
- 			  vm.gridOptions.dataSource.filter(filters);
+				/*if(vm.search.year !=null && vm.search.year !=''){//查询条件--年份
+					filters.push({field:'planYear',operator:'contains',value:vm.search.year});
+				}*/
+			  	vm.gridOptions.dataSource.filter(filters);
+     		   	
+     		   	//对所有项目的月报数据进行统计
+				vm.allMonthReport();
     		};
         }
         
