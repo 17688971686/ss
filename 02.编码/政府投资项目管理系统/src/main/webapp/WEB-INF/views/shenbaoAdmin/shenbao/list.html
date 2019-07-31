@@ -99,14 +99,22 @@
 	  		<a class="btn btn-sm btn-info" href="#/shenbao_records"></span>查看所有申报记录</a>
 	  	</div>
 	</div>
+	
+	<script type="text/template" id="columnBtns">
+          <button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.shenbaoBtn('{0}','{1}','{2}')" ><span class="glyphicon glyphicon-pencil"></span>申报</button>
+          <button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.checkShenBaoRecords('{0}')" ><span class="glyphicon glyphicon-th-list"></span>申报记录<span id="tuiwenNumber{0}" class="badge"></span></button>
+          <button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.updateShenBaoRecords('{0}')" ><span class="glyphicon glyphicon-pencil"></span>更新或提交</button>
+            <!--
+            <button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.getApprovalAtts('{0}')"><span class="glyphicon glyphicon-pencil"></span>在线监管上传文件</button>
+            -->
+      </script>	  
+	  <!-- 原控制显示
 	  <script type="text/template" id="columnBtns">
 		  <button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.updateShenBaoRecords('{0}')" ng-show="vm.isUpdate('{3}','{5}')"><span class="glyphicon glyphicon-pencil"></span>更新或提交</button>
 		  <button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.shenbaoBtn('{0}','{1}','{2}')" ng-hide="vm.isUpdate('{3}','{5}')" ><span class="glyphicon glyphicon-pencil"></span>申报</button>
 			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.checkShenBaoRecords('{0}')" ng-hide="vm.isUpdate('{3}','{5}')"><span class="glyphicon glyphicon-th-list"></span>申报记录<span id="tuiwenNumber{0}" class="badge"></span></button>
-			<!--
-			<button class="btn btn-xs btn-primary" data-toggle="modal" ng-click="vm.getApprovalAtts('{0}')"><span class="glyphicon glyphicon-pencil"></span>在线监管上传文件</button>
-			-->
 	  </script>	  
+	  -->
      <form id="form" name="form">
          <div class="grid" kendo-grid="grid" k-options="vm.gridOptions"></div>
     </form>

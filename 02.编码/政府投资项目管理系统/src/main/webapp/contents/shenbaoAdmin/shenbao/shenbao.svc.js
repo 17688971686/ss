@@ -584,6 +584,12 @@
                     },
                     filterable : false
                 },
+				{
+					field : "planYear",
+					title : "计划年度",
+					width : 80,
+					filterable : false
+				},
                 {
                     field : "projectShenBaoStage",
                     title : "申报阶段",
