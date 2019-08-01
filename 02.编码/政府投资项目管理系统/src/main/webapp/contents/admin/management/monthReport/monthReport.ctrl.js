@@ -19,7 +19,14 @@
     	vm.basicData={};
     	vm.page='list';
     	vm.model.display = false;
-    	
+		//遍历年份
+    	var now = new Date();
+		var nowYear = now.getFullYear();
+		vm.projectSelectYears = [];
+		for(var i=5;i>=0;i--){
+			vm.projectSelectYears.push(nowYear-i);
+		}
+		
         vm.init=function(){
         	if($state.current.name=='monthReport'){
         		vm.page='list';
@@ -72,7 +79,7 @@
 	   			.where(function(x){return x.identity==common.basicDataConfig().projectIndustry&&x.pId==common.basicDataConfig().projectIndustry_SH;})
 	   			.toArray();//社会投资项目行业
         };//end init
-        
+		
 		//默认查找当年，再加条件去查年月
 		vm.allMonthReport=function(){
 			monthReportSvc.allMonthReport(vm);

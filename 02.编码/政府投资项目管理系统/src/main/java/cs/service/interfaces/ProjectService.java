@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import cs.domain.Project;
+import cs.model.DomainDto.MonthReportDto;
 import cs.model.PageModelDto;
 import cs.model.DomainDto.ProjectDto;
 import cs.model.Statistics.sttisticsData;
@@ -183,6 +184,6 @@ public interface ProjectService extends IService<ProjectDto, Project, String> {
 	 */
 	void moveProject(Map<String, Object> map);
 	
-	ProjectDto getProjectMonth(Map<String, Object> map);
+	List<MonthReportDto> getProjectMonth(Map<String, Object> map);
 	
 }

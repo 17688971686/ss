@@ -14,6 +14,7 @@ import cs.common.BasicDataConfig;
 import cs.controller.CommonController;
 import cs.excelHelper.PoiExcel2k3Helper;
 import cs.excelHelper.PoiExcel2k7Helper;
+import cs.model.DomainDto.MonthReportDto;
 import cs.model.project.UpdateDisbursedResultVO;
 import cs.repository.odata.ODataFilterItem;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +29,7 @@ import cs.model.DomainDto.ProjectDto;
 import cs.model.Statistics.ProjectStageData;
 import cs.repository.odata.ODataObj;
 import cs.service.interfaces.ProjectService;
+import sun.misc.Request;
 
 
 /**
@@ -51,11 +53,10 @@ public class ProjectController {
 		return ProjectDtos;
 	}
 
-	@RequestMapping(name = "获取项目月报信息", path = "getProjectMonth",method=RequestMethod.POST)
-	public @ResponseBody ProjectDto getProjectMonth(@RequestBody Map map) throws ParseException {
+	@RequestMapping(name = "获取项目和月报信息", path = "getProjectMonth",method=RequestMethod.POST)
+	public @ResponseBody List<MonthReportDto> getProjectMonth(@RequestBody Map map) throws ParseException {
 		//默认条件
-//		return ProjectService.getProjectMonth(map);
-		return null;
+		return ProjectService.getProjectMonth(map);
 	}
 	
 	@RequiresPermissions("management/project#unitName#get")

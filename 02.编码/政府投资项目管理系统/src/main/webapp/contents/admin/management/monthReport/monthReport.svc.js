@@ -430,28 +430,126 @@
 		
 		
 		function allMonthReport(vm){
-			/*年份
-			var now = new Date();
-			var nowYear = now.getFullYear();
-			vm.projectSelectYears = [];
-			for(var i=5;i>=0;i--){
-				vm.projectSelectYears.push(nowYear-i);
-			}
-			*/
 			var httpOptions = {
 				method : "post",
 				url : url_project+"/getProjectMonth",
 				data : {
-					"projectName":vm.search.projectName,
-					"projectStage":vm.search.projectStage,
-					"projectIndustry":vm.search.projectIndustry,
-					"unitName":vm.search.unitName,
-					"planYear":vm.search.planYear,
+					"projectName":vm.search.projectName==null?"":vm.search.projectName,
+					"projectStage":vm.search.projectStage==null?"":vm.search.projectStage,
+					"projectIndustry":vm.search.projectIndustry==null?"":vm.search.projectIndustry,
+					"unitName":vm.search.unitName==null?"":vm.search.unitName,
+					"planYear":vm.search.year==null?"":vm.search.year,
 				}
 			}
 			
 			var httpSuccess = function success (response) {
-				console.log(response.data);
+				var report = response.data;
+				//计划完成投资
+				vm.allPlanInvestTotal_1=0;vm.allPlanInvestTotal_2=0;vm.allPlanInvestTotal_3=0;vm.allPlanInvestTotal_4=0;
+				vm.allPlanInvestTotal_5=0;vm.allPlanInvestTotal_6=0;vm.allPlanInvestTotal_7=0;vm.allPlanInvestTotal_8=0;
+				vm.allPlanInvestTotal_9=0;vm.allPlanInvestTotal_10=0;vm.allPlanInvestTotal_11=0;vm.allPlanInvestTotal_12=0;
+				//本月完成投资
+				vm.allInvestTotal_1=0;vm.allInvestTotal_2=0;vm.allInvestTotal_3=0;vm.allInvestTotal_4=0;
+				vm.allInvestTotal_5=0;vm.allInvestTotal_6=0;vm.allInvestTotal_7=0;vm.allInvestTotal_8=0;
+				vm.allInvestTotal_9=0;vm.allInvestTotal_10=0;vm.allInvestTotal_11=0;vm.allInvestTotal_12=0;
+				//实际完成投资
+				vm.actuallyInvestment_1=0;vm.actuallyInvestment_2=0;vm.actuallyInvestment_3=0;vm.actuallyInvestment_4=0;
+				vm.actuallyInvestment_5=0;vm.actuallyInvestment_6=0;vm.actuallyInvestment_7=0;vm.actuallyInvestment_8=0;
+				vm.actuallyInvestment_9=0;vm.actuallyInvestment_10=0;vm.actuallyInvestment_11=0;vm.actuallyInvestment_12=0;
+				report.forEach(function(value,index,array){
+					if(value.submitMonth == 1){
+						vm.allPlanInvestTotal_1 += value.thisMonthPlanInvestTotal;
+						vm.allInvestTotal_1 += value.thisMonthInvestTotal;
+						vm.actuallyInvestment_1 += value.actuallyFinishiInvestment;
+					}else if(value.submitMonth == 2){
+						vm.allPlanInvestTotal_2 += value.thisMonthPlanInvestTotal;
+						vm.allInvestTotal_2 += value.thisMonthInvestTotal;
+						vm.actuallyInvestment_2 += value.actuallyFinishiInvestment;
+					}else if(value.submitMonth == 3){
+						vm.allPlanInvestTotal_3 += value.thisMonthPlanInvestTotal;
+						vm.allInvestTotal_3 += value.thisMonthInvestTotal;
+						vm.actuallyInvestment_3 += value.actuallyFinishiInvestment;
+					}else if(value.submitMonth == 4){
+						vm.allPlanInvestTotal_4 += value.thisMonthPlanInvestTotal;
+						vm.allInvestTotal_4 += value.thisMonthInvestTotal;
+						vm.actuallyInvestment_4 += value.actuallyFinishiInvestment;
+					}else if(value.submitMonth == 5){
+						vm.allPlanInvestTotal_5 += value.thisMonthPlanInvestTotal;
+						vm.allInvestTotal_5 += value.thisMonthInvestTotal;
+						vm.actuallyInvestment_5 += value.actuallyFinishiInvestment;
+					}else if(value.submitMonth == 6){
+						vm.allPlanInvestTotal_6 += value.thisMonthPlanInvestTotal;
+						vm.allInvestTotal_6 += value.thisMonthInvestTotal;
+						vm.actuallyInvestment_6 += value.actuallyFinishiInvestment;
+					}else if(value.submitMonth == 7){
+						vm.allPlanInvestTotal_7 += value.thisMonthPlanInvestTotal;
+						vm.allInvestTotal_7 += value.thisMonthInvestTotal;
+						vm.actuallyInvestment_7 += value.actuallyFinishiInvestment;
+					}else if(value.submitMonth == 8){
+						vm.allPlanInvestTotal_8 += value.thisMonthPlanInvestTotal;
+						vm.allInvestTotal_8 += value.thisMonthInvestTotal;
+						vm.actuallyInvestment_8 += value.actuallyFinishiInvestment;
+					}else if(value.submitMonth == 9){
+						vm.allPlanInvestTotal_9 += value.thisMonthPlanInvestTotal;
+						vm.allInvestTotal_9 += value.thisMonthInvestTotal;
+						vm.actuallyInvestment_9 += value.actuallyFinishiInvestment;
+					}else if(value.submitMonth == 10){
+						vm.allPlanInvestTotal_10 += value.thisMonthPlanInvestTotal;
+						vm.allInvestTotal_10 += value.thisMonthInvestTotal;
+						vm.actuallyInvestment_10 += value.actuallyFinishiInvestment;
+					}else if(value.submitMonth == 11){
+						vm.allPlanInvestTotal_11 += value.thisMonthPlanInvestTotal;
+						vm.allInvestTotal_11 += value.thisMonthInvestTotal;
+						vm.actuallyInvestment_11 += value.actuallyFinishiInvestment;
+					}else if(value.submitMonth == 12){
+						vm.allPlanInvestTotal_12 += value.thisMonthPlanInvestTotal;
+						vm.allInvestTotal_12 += value.thisMonthInvestTotal;
+						vm.actuallyInvestment_12 += value.actuallyFinishiInvestment;
+					}
+				});
+				vm.sumThisMonthPlanInvestTotal = common.getSum([//本月计划投资合计
+					vm.allPlanInvestTotal_1 || 0,
+					vm.allPlanInvestTotal_2 || 0,
+					vm.allPlanInvestTotal_3 || 0,
+					vm.allPlanInvestTotal_4 || 0,
+					vm.allPlanInvestTotal_5 || 0,
+					vm.allPlanInvestTotal_6 || 0,
+					vm.allPlanInvestTotal_7 || 0,
+					vm.allPlanInvestTotal_8 || 0,
+					vm.allPlanInvestTotal_9 || 0,
+					vm.allPlanInvestTotal_10 || 0,
+					vm.allPlanInvestTotal_11 || 0,
+					vm.allPlanInvestTotal_12 || 0,
+				]);
+				vm.sumThisMonthInvestTotal = common.getSum([//本月完成投资合计
+					vm.allInvestTotal_1 || 0,
+					vm.allInvestTotal_2 || 0,
+					vm.allInvestTotal_3 || 0,
+					vm.allInvestTotal_4 || 0,
+					vm.allInvestTotal_5 || 0,
+					vm.allInvestTotal_6 || 0,
+					vm.allInvestTotal_7 || 0,
+					vm.allInvestTotal_8 || 0,
+					vm.allInvestTotal_9 || 0,
+					vm.allInvestTotal_10 || 0,
+					vm.allInvestTotal_11 || 0,
+					vm.allInvestTotal_12 || 0,
+				]);
+				vm.sumActuallyInvestment = common.getSum([
+					vm.actuallyInvestment_1 || 0,
+					vm.actuallyInvestment_2 || 0,
+					vm.actuallyInvestment_3 || 0,
+					vm.actuallyInvestment_4 || 0,
+					vm.actuallyInvestment_5 || 0,
+					vm.actuallyInvestment_6 || 0,
+					vm.actuallyInvestment_7 || 0,
+					vm.actuallyInvestment_8 || 0,
+					vm.actuallyInvestment_9 || 0,
+					vm.actuallyInvestment_10 || 0,
+					vm.actuallyInvestment_11 || 0,
+					vm.actuallyInvestment_12 || 0,
+				]);
+
 			}
 			
 			common.http({

@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
+import javax.xml.transform.Transformer;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import cs.common.*;
@@ -29,10 +30,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.BooleanType;
-import org.hibernate.type.DoubleType;
-import org.hibernate.type.IntegerType;
-import org.hibernate.type.StringType;
+import org.hibernate.type.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -1197,24 +1195,40 @@ public class ProjectServiceImpl extends AbstractServiceImpl<ProjectDto, Project,
         }
     }
 
+    @SuppressWarnings({"deprecation", "rawtypes", "unchecked"})
     @Override
-    public ProjectDto getProjectMonth(Map<String, Object> map) {
-        
+    public List<MonthReportDto> getProjectMonth(Map<String, Object> map) {
         StringBuffer sql = new StringBuffer();
-        sql.append("SELECT * FROM cs_project");
-        
+        sql.append("SELECT m.submitMonth, m.thisMonthPlanInvestTotal, m.thisMonthInvestTotal, m.actuallyFinishiInvestment ");
+        sql.append(" FROM cs_project p LEFT JOIN cs_project_cs_monthreport pm ON p.id = pm.Project_id " +
+                " LEFT JOIN cs_monthreport m ON pm.monthReports_id = m.id " +
+                " WHERE p.isMonthReport=true AND p.isLatestVersion=true AND p.projectInvestmentType= '")
+            .append(BasicDataConfig.projectInvestmentType_ZF).append("' ");
+        if(map.get("projectName") != ""){
+            sql.append(" AND p.projectName LIKE ").append("'%").append(map.get("projectName")).append("%' ");
+        }
+        if(map.get("projectStage") != ""){
+            sql.append(" AND p.projectStage = ").append("'").append(map.get("projectStage")).append("' ");
+        }
+        if(map.get("projectIndustry") != ""){
+            sql.append(" AND p.projectIndustry = ").append("'").append(map.get("projectIndustry")).append("' ");
+        }
+        if(map.get("unitName") != ""){
+            sql.append(" AND p.unitName = ").append("'").append(map.get("unitName")).append("' ");
+        }
+        if(map.get("planYear") != ""){
+            sql.append(" AND m.submitYear = ").append("'").append(map.get("planYear")).append("' ");
+        }
+
         NativeQuery query = super.repository.getSession().createNativeQuery(sql.toString());
-        query.setParameter("isMonthReport", true);
-        query.setParameter("isLateseVersion", true);
-        query.setParameter("projectInvestmentType", BasicDataConfig.projectInvestmentType_ZF);
-        query.setParameter("projectName", map.get("projectName"));
-        query.setParameter("projectStage", map.get("projectStage"));
-        query.setParameter("projectIndustry", map.get("projectIndustry"));
-        query.setParameter("unitName", map.get("unitName"));
-        query.setParameter("planYear", map.get("planYear"));
+        query.addScalar("submitMonth", new IntegerType());//提交月份
+        query.addScalar("thisMonthPlanInvestTotal", new DoubleType());//本月计划完成投资
+        query.addScalar("thisMonthInvestTotal", new DoubleType());//本月完成投资
+        query.addScalar("actuallyFinishiInvestment", new DoubleType());//实际完成投资
         
-        query.addScalar("projectName",new StringType());
-        return null;
+
+        List<MonthReportDto> list= query.setResultTransformer(Transformers.aliasToBean(MonthReportDto.class)).list();
+        return list;
     }
 
 
