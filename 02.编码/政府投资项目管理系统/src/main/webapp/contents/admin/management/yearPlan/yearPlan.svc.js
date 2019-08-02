@@ -1154,6 +1154,8 @@
                     vm.checkLength(vm.model.remark, 500, 'remarkTips');
                 }
                 if (vm.page == 'planBZ' || vm.page =='shenbao_record') {//用于年度计划的编制
+                    vm.model = response.data.value[0] || {};//添加和修改都用同一个页面，从vm.model取值，所以赋值给它，下面的是原有的，
+                                                                //不知道是不是哪里需要使用，暂时没删
                     vm.model.plan = response.data.value[0] || {};
                     vm.planYear = vm.model.plan.year;//用于编制列表表头年份的绑定
                     grid_yearPlan_shenbaoInfoList(vm);//查询年度计划编制中的申报信息列表

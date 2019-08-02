@@ -100,8 +100,9 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     @Override
     @Transactional
     public YearPlan create(YearPlanDto dto) {
-        YearPlan yearPlanOld = super.repository.findById(dto.getId());
-        if(!yearPlanOld.getIsDraftOrPlan() && dto.getIsDraftOrPlan()){
+        //新增和修改都跳到这里，id为null的是新增,所以去掉判断
+//        YearPlan yearPlanOld = super.repository.findById(dto.getId());
+//        if(!yearPlanOld.getIsDraftOrPlan() && dto.getIsDraftOrPlan()){
             Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), dto.getYear());
             List<YearPlan> entitys = super.repository.findByCriteria(criterion);
             for (int i = 0; i < entitys.size(); i++) {
@@ -109,9 +110,8 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
                 if (dto.getYear().equals(yearPlan.getYear()) && dto.getIsDraftOrPlan() && yearPlan.getIsDraftOrPlan()) {
                     throw new IllegalArgumentException("当前年份：" + yearPlan.getYear() + "已存在计划下达编制，其他编制信息只能用作草稿！");
                 }
-
             }
-        }
+//        }
         if(dto.getHasLock()){
             dto.setLockName(currentUser.getUserId());
         }else{
