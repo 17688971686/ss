@@ -1394,9 +1394,9 @@
 					row.cells[5].value = common.getBasicDataDesc(row.cells[5].value);//项目类别
 					row.cells[6].value = common.getBasicDataDesc(row.cells[6].value);//建设性质
 					row.cells[7].value = timeFormat;
-					row.cells[27].value = common.getBasicDataDesc(row.cells[27].value);//审批阶段
-					row.cells[28].value = common.getProcessStateDesc(row.cells[28].value);//审批阶段
-					row.cells[29].value = common.getBasicDataDesc(row.cells[29].value);//审核状态     
+					row.cells[27].value = row.cells[27].value;//审批阶段
+					row.cells[28].value = common.getProcessStateDesc(row.cells[28].value);//审核状态
+					
 				}			
 			  };
 
