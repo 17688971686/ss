@@ -69,9 +69,12 @@
 			</select>
 			<span data-valmsg-for="projectCategory" data-valmsg-replace="true" class="required"></span>
 		</td>
-		<td class="formAlignRight">国家编码：</td>
+		<td class="formAlignRight">国家编码：<span class="required">(*)</span></td>
 		<td>
-			<span ng-bind="vm.model.countryNumber"></span>
+			<input type="text" autocomplete="off" class="form-control input-sm" id="countryNumber" name="countryNumber"
+				   ng-model="vm.model.countryNumber"
+				   data-val="true" data-val-required="必填"/>
+			<span data-valmsg-for="countryNumber" data-valmsg-replace="true" class="required"></span>
 		</td>
 	</tr>
 	<tr>

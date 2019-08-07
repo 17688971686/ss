@@ -73,7 +73,9 @@
 		<td class="formAlignRight" >国家编码：</td>
 
 		<td>
-			<input type="text" autocomplete="off" style="width: 80%" id="countryNumber" name="countryNumber" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.countryNumber" data-val="true" />
+			<input type="text" autocomplete="off" style="width: 80%" id="countryNumber" name="countryNumber" class="form-control input-sm" ng-model="vm.model.shenBaoInfo.countryNumber" d data-val="true" data-val-required="必填" required />
+			<span class="required" ng-show="form.countryNumber.$dirty && form.countryNumber.$invalid">必填</span>
+
 		</td>
 	</tr>
 	<tr>
