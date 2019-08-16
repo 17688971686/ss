@@ -86,10 +86,10 @@
         }//end fun getPackPlanById
 
 
-        function activeRelease(vm) {
+        function activeRelease(vm,id) {
             var httpOptions = {
                 method: 'post',
-                url: url_planList + "/activeRelease"+"/"+vm.id,
+                url: url_planList + "/activeRelease"+"/"+id,
                 data:vm.model.shenBaoInfo
             };
 

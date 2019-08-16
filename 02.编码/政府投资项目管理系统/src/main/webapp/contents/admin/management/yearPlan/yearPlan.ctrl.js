@@ -147,17 +147,6 @@
 			}
 		};
 
-        vm.saveShenBaoInfo = function(){
-            $('#myModal_plan').modal('hide');
-            common.confirm({
-                vm:vm,
-                msg:"确认要主动下达吗？",
-                fn:function(){
-                    $('.confirmDialog').modal('hide');
-                    yearPlanSvc.activeRelease(vm);
-                }
-            });
-		}
 
         vm.dialog_addPlanReach = function(id,projectId){
             //申报详情模态框
@@ -909,6 +898,18 @@
     		yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm);//查询所有的可添加的申报信息列表 
     		yearPlanSvc.grid_yearPlan_packPlan(vm);//获取年度计划所关联的打包类型
     		yearPlanSvc.grid_packListForYeanPlan(vm);//查询所有可添加的打包类型
+
+            vm.saveShenBaoInfo = function(){
+                $('#myModal_plan').modal('hide');
+                common.confirm({
+                    vm:vm,
+                    msg:"确认要主动下达吗？",
+                    fn:function(){
+                        $('.confirmDialog').modal('hide');
+                        yearPlanSvc.activeRelease(vm,vm.id);
+                    }
+                });
+            }
     		
     		vm.basicData.userUnit=common.getUserUnits();//获取所有单位
 		   	 var keys = [];
@@ -1223,15 +1224,20 @@
             };
 
             vm.saveShenBaoInfo = function(){
+                $('#myModal_plan').modal('hide');
                 common.confirm({
                     vm:vm,
                     msg:"确认要主动下达吗？",
                     fn:function(){
                         $('.confirmDialog').modal('hide');
-                        yearPlanSvc.activeRelease(vm);
+                        yearPlanSvc.activeRelease(vm,vm.packid);
                     }
                 });
             }
+
+            vm.addProject = function(){
+
+			}
         }
     } //yearPlan
 })();
