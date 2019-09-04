@@ -30,53 +30,53 @@ public class RoleController {
 	private String ctrlName="framework/role";
 	@Autowired
 	private RoleService roleService;
-	
-	@RequiresPermissions("role##get")
-	@RequestMapping(name = "获取角色数据", path = "",method=RequestMethod.GET)	
+
+//	@RequiresPermissions("role##get")
+	@RequestMapping(name = "获取角色数据", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<RoleDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj=new ODataObj(request);
 		PageModelDto<RoleDto> roleDtos=roleService.get(odataObj);
-		
-		return roleDtos;		
+
+		return roleDtos;
 	}
-	
-	
-	@RequiresPermissions("role##post")
-	@RequestMapping(name = "创建角色", path = "",method=RequestMethod.POST)	
+
+
+//	@RequiresPermissions("role##post")
+	@RequestMapping(name = "创建角色", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void  post(@RequestBody RoleDto roleDto)  {		
-		roleService.createRole(roleDto);		
+	public void  post(@RequestBody RoleDto roleDto)  {
+		roleService.createRole(roleDto);
 	}
-	
-	@RequiresPermissions("role#updateRole#post")
-	@RequestMapping(name = "更新角色", path = "updateRole",method=RequestMethod.POST)	
+
+//	@RequiresPermissions("role#updateRole#post")
+	@RequestMapping(name = "更新角色", path = "updateRole",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void  update(@RequestBody RoleDto roleDto) throws Exception  {	
-		roleService.updateRole(roleDto);		
+	public void  update(@RequestBody RoleDto roleDto) throws Exception  {
+		roleService.updateRole(roleDto);
 	}
-	
-	@RequiresPermissions("role#deleteRole#post")
-	@RequestMapping(name = "删除角色", path = "deleteRole",method=RequestMethod.POST)	
+
+//	@RequiresPermissions("role#deleteRole#post")
+	@RequestMapping(name = "删除角色", path = "deleteRole",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  delete(@RequestBody String id)  {
 		String[] ids=id.split(",");
 		if(ids.length>1){
-			roleService.deleteRoles(ids);	
+			roleService.deleteRoles(ids);
 		}else{
-			roleService.deleteRole(id);	
-		}	
+			roleService.deleteRole(id);
+		}
 	}
-	
-	
+
+
 	//begin#html
-	
-	@RequiresPermissions("role#html/list#get")
+
+//	@RequiresPermissions("role#html/list#get")
 	@RequestMapping(name="角色列表页面",path="html/list",method=RequestMethod.GET)
 	public String list(){
 		return ctrlName + "/list";
 	}
-	
-	@RequiresPermissions("role#html/edit#get")
+
+//	@RequiresPermissions("role#html/edit#get")
 	@RequestMapping(name="编辑角色页面",path="html/edit",method=RequestMethod.GET)
 	public String edit(){
 		return ctrlName + "/edit";

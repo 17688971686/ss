@@ -33,7 +33,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@RequiresPermissions("user##get")	
+//	@RequiresPermissions("user##get")
 	@RequestMapping(name = "获取用户数据", path = "", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -56,14 +56,14 @@ public class UserController {
 		return userDtos;
 	}
 	
-	@RequiresPermissions("user##post")
+//	@RequiresPermissions("user##post")
 	@RequestMapping(name = "创建用户", path = "",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  post(@RequestBody UserDto userDto)  {		
 		userService.createUser(userDto);		
 	}
 	
-	@RequiresPermissions("user#deleteUser#post")
+//	@RequiresPermissions("user#deleteUser#post")
 	@RequestMapping(name = "删除用户", path = "deleteUser",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  delete(@RequestBody String id)  {		
@@ -76,14 +76,14 @@ public class UserController {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	@RequiresPermissions("user#initUser#post")
+//	@RequiresPermissions("user#initUser#post")
 	@RequestMapping(name = "初始化用户相关数据", path = "initUser",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void initUser(@RequestBody Map map)  {		
 		userService.initUser(map);	
 	}
 	
-	@RequiresPermissions("user#updateUser#post")
+//	@RequiresPermissions("user#updateUser#post")
 	@RequestMapping(name = "更新用户", path = "updateUser",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  put(@RequestBody UserDto userDto)  {		
@@ -91,12 +91,12 @@ public class UserController {
 	}
 	
 	// begin#html
-	@RequiresPermissions("user#html/list#get")
+//	@RequiresPermissions("user#html/list#get")
 	@RequestMapping(name = "用户列表页面", path = "html/list", method = RequestMethod.GET)
 	public String list() {
 		return ctrlName + "/list";
 	}
-	@RequiresPermissions("user#html/edit#get")
+//	@RequiresPermissions("user#html/edit#get")
 	@RequestMapping(name = "编辑用户页面", path = "html/edit", method = RequestMethod.GET)
 	public String edit() {
 		return ctrlName + "/edit";

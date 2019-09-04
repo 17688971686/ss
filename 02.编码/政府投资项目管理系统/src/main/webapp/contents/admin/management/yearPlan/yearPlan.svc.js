@@ -804,7 +804,7 @@
             var httpOptions = {
                 method: 'post',
                 url: common.format(url_shenbaoInfoList + "/updateState"),
-                data: vm.model
+                data: vm.model.shenBaoInfo
             };
 
             var httpSuccess = function success(response) {

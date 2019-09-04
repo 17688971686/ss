@@ -486,7 +486,7 @@
     				        backdrop: 'static',
     				        keyboard:true
     				    });
-    					vm.model.relId = id;
+    					vm.model.shenBaoInfo.id = id;
     	    			vm.model.thisProcessState = common.basicDataConfig().processState_notpass;
     					//退文信息收集模态框确认
     					vm.retreatSubmit=function(){

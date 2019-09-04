@@ -3,12 +3,12 @@
 
 	angular.module('app').factory('roleSvc', role);
 
-	role.$inject = [ '$http','$compile' ];	
-	function role($http,$compile) {	
+	role.$inject = [ '$http','$compile' ];
+	function role($http,$compile) {
 		var url_role = "/role";
 		var url_back = '#/role';
 		var url_resource="/sys/resource";
-			
+
 		var service = {
 			grid : grid,
 			createRole : createRole,
@@ -17,29 +17,29 @@
 			updateRole:updateRole,
 			deleteRole:deleteRole,
 			initZtreeClient:initZtreeClient
-		};		
-		return service;	
-		
+		};
+		return service;
+
 		// begin common fun
 		function getZtreeChecked() {
             var treeObj = $.fn.zTree.getZTreeObj("zTree");
             var nodes = treeObj.getCheckedNodes(true);
             return nodes;
         }
-		
+
 		function updateZtree(vm) {
             var treeObj = $.fn.zTree.getZTreeObj("zTree");
             var checkedNodes = $linq(vm.model.resources).select(function (x) { return x.path; }).toArray();
-            var allNodes = treeObj.getNodesByParam("level", 1, null);
+            var allNodes = treeObj.transformToArray(treeObj.getNodes());
 
             var nodes = $linq(allNodes).where(function (x) { return $linq(checkedNodes).contains(x.path); }).toArray();
-            
+
             for (var i = 0, l = nodes.length; i < l; i++) {
-                treeObj.checkNode(nodes[i], true, true);
+                treeObj.checkNode(nodes[i], true, false);
             }
         }
 		// end common fun
-		
+
 		function grid(vm) {
 			// Begin:dataSource
 			var dataSource = new kendo.data.DataSource({
@@ -55,7 +55,7 @@
 				}),
 				serverPaging : true,
 				serverSorting : true,
-				serverFiltering : true,			
+				serverFiltering : true,
 				pageSize: 10,
 				sort : {
 					field : "createdDate",
@@ -77,11 +77,11 @@
 						filterable : false,
 						width : 40,
 						title : "<input id='checkboxAll' type='checkbox'  class='checkbox'  />"
-						
+
 					}, {
 						field : "roleName",
 						title : "角色名称",
-						width : 200,						
+						width : 200,
 						filterable : true
 					}, {
 						field : "comment",
@@ -98,13 +98,13 @@
 						field : "",
 						title : "操作",
 						width : 180,
-						template:function(item){							
-							return common.format($('#columnBtns').html(),"vm.del('"+item.id+"')",item.id);							
-						}						
+						template:function(item){
+							return common.format($('#columnBtns').html(),"vm.del('"+item.id+"')",item.id);
+						}
 					}
 			];
 			// End:column
-		
+
 			vm.gridOptions={
 					dataSource : common.gridDataSource(dataSource),
 					filterable : common.kendoGridConfig().filterable,
@@ -112,7 +112,7 @@
 					noRecords:common.kendoGridConfig().noRecordMessage,
 					columns : columns,
 					resizable: true
-				};			
+				};
 			}// end fun grid
 
 		function createRole(vm) {
@@ -120,23 +120,23 @@
 			var isValid = $('form').valid();
 			if (isValid && vm.isRoleExist == false) {
 				vm.isSubmit = true;
-				
+
 				// zTree
 				var nodes = getZtreeChecked();
                var nodes_role = $linq(nodes).where(function (x) { return x.isParent == false; }).select(function (x) { return { id: x.id, name: x.name,path:x.path,method:x.method }; }).toArray();
-               vm.model.resources = nodes_role;   
-	               
+               vm.model.resources = nodes_role;
+
 				var httpOptions = {
 					method : 'post',
 					url : url_role,
 					data : vm.model
 				};
 
-				var httpSuccess = function success(response) {				
+				var httpSuccess = function success(response) {
 					common.requestSuccess({
 						vm:vm,
 						response:response,
-						fn:function() {													
+						fn:function() {
 							common.alert({
 								vm:vm,
 								msg:"操作成功",
@@ -147,7 +147,7 @@
 									location.href = url_back;
 								}
 							});
-						}						
+						}
 					});
 				};
 
@@ -157,7 +157,7 @@
 					httpOptions:httpOptions,
 					success:httpSuccess
 				});
-			} else {				
+			} else {
 //				common.alert({
 //					vm:vm,
 //					msg:"您填写的信息不正确,请核对后提交!"
@@ -170,19 +170,19 @@
 		}// end fun checkRole
 
 		function getRoleById(vm) {
-			
+
 			var httpOptions = {
 				method : 'get',
 				url : common.format(url_role + "?$filter=id eq '{0}'", vm.id)
 			};
-			
+
 			var httpSuccess = function success(response) {
 				vm.model = response.data.value[0];
 				if (vm.isUpdate) {
 					initZtreeClient(vm);
 				}
 			};
-			
+
 			common.http({
 				vm:vm,
 				$http:$http,
@@ -190,39 +190,39 @@
 				success:httpSuccess
 			});
 		}// end fun getRoleById
-		
+
 		function updateRole(vm){
-			common.initJqValidation();			
+			common.initJqValidation();
 			var isValid = $('form').valid();
 			if (isValid && vm.isRoleExist == false) {
 				vm.isSubmit = true;
 				vm.model.id=vm.id;// id
-				
+
 				// zTree
 				var nodes = getZtreeChecked();
-               var nodes_role = $linq(nodes).where(function (x) { return x.isParent == false; }).select(function (x) { return { id: x.id, name: x.name,path:x.path,method:x.method }; }).toArray();
-               vm.model.resources = nodes_role; 
-               
+                var nodes_role = $linq(nodes).select(function (x) { return { id: x.id, name: x.name,path:x.path,method:x.method }; }).toArray();
+               vm.model.resources = nodes_role;
+
 				var httpOptions = {
 					method : 'post',
 					url : url_role+'/updateRole',
 					data : vm.model
 				};
 
-				var httpSuccess = function success(response) {					
+				var httpSuccess = function success(response) {
 					common.requestSuccess({
 						vm:vm,
 						response:response,
-						fn:function() {							
+						fn:function() {
 							common.alert({
 								vm:vm,
 								msg:"操作成功",
 								fn:function() {
 									vm.isSubmit = false;
-									$('.alertDialog').modal('hide');							
+									$('.alertDialog').modal('hide');
 								}
 							});
-						}						
+						}
 					});
 				};
 
@@ -240,27 +240,27 @@
 //			})
 			}
 		}// end fun updateRole
-		
+
 		function deleteRole(vm,id) {
             vm.isSubmit = true;
-            
+
             var httpOptions = {
                 method: 'post',
                 url:url_role+'/deleteRole',
-                data:id               
+                data:id
             };
-            
-            var httpSuccess = function success(response) {              
+
+            var httpSuccess = function success(response) {
                 common.requestSuccess({
 					vm:vm,
 					response:response,
 					fn:function () {
 	                    vm.isSubmit = false;
 	                    vm.gridOptions.dataSource.read();
-	                }					
+	                }
 				});
             };
-            
+
             common.http({
 				vm:vm,
 				$http:$http,
@@ -268,14 +268,14 @@
 				success:httpSuccess
 			});
         }// end fun deleteRole
-		
+
 		function initZtreeClient(vm){
 			var httpOptions = {
 	                method: 'get',
 	                url: url_resource
 	            };
-			
-            var httpSuccess = function success(response) {                             
+
+            var httpSuccess = function success(response) {
                 common.requestSuccess({
 					vm:vm,
 					response:response,
@@ -287,21 +287,21 @@
 	                            enable: true
 	                        }
 	                    };
-	                    var zNodes = response.data;	                    
+	                    var zNodes = response.data;
 	                    zTreeObj = $.fn.zTree.init($("#zTree"), setting, zNodes);
 	                    if (vm.isUpdate) {
 	                         updateZtree(vm);
 	                    }
-	                }					
+	                }
 				});
             };
-            
+
 			common.http({
 				vm:vm,
 				$http:$http,
 				httpOptions:httpOptions,
 				success:httpSuccess
 			});
-		}// end fun initZtreeClient				
-	}	
+		}// end fun initZtreeClient
+	}
 })();

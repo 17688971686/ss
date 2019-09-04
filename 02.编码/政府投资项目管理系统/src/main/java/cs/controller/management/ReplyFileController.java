@@ -27,7 +27,7 @@ public class ReplyFileController {
 	@Autowired
 	private ReplyFileService replyFileService;
 	
-	@RequiresPermissions("management/replyFile##get")
+//	@RequiresPermissions("management/replyFile##get")
 	@RequestMapping(name = "获取批复文件信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ReplyFileDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);

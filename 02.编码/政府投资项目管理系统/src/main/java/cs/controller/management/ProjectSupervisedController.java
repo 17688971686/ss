@@ -202,26 +202,26 @@ public class ProjectSupervisedController {
 		return this.ctrlUnitName + "/detail";
 	}
 	// begin#html
-	@RequiresPermissions("management/supervision/project#html/list#get")
+//	@RequiresPermissions("management/supervision/project#html/list#get")
 	@RequestMapping(name = "监管项目列表", path = "html/list", method = RequestMethod.GET)
 	public String todo() {
 		return ctrlName + "/list";
 	}
 	
-	@RequiresPermissions("management/supervision/project#html/edit#get")
+//	@RequiresPermissions("management/supervision/project#html/edit#get")
 	@RequestMapping(name = "监管项目编辑页", path = "html/edit",method=RequestMethod.GET)
 	public String edit() {
 		return this.ctrlName + "/edit";
 	}
 
-	@RequiresPermissions("management/supervision/project##post")
+//	@RequiresPermissions("management/supervision/project##post")
 	@RequestMapping(name = "创建监管项目信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  create(@RequestBody ProjectDto ProjectDto){		
 		projectSupervisedService.create(ProjectDto);		
 	}
 	
-	@RequiresPermissions("management/supervision/project##get")
+//	@RequiresPermissions("management/supervision/project##get")
 	@RequestMapping(name = "获取项目信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -229,7 +229,7 @@ public class ProjectSupervisedController {
 		return ProjectDtos;
 	}
 	
-	@RequiresPermissions("management/supervision/project#updateProject#post")
+//	@RequiresPermissions("management/supervision/project#updateProject#post")
 	@RequestMapping(name = "更新项目信息", path = "updateProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  update(@RequestBody ProjectDto ProjectDto){		
@@ -267,7 +267,7 @@ public class ProjectSupervisedController {
 		}
 	}
 	
-	@RequiresPermissions("management/supervision/project#unitName#get")
+//	@RequiresPermissions("management/supervision/project#unitName#get")
 	@RequestMapping(name = "获取监管项目信息--可查看单位名称", path = "unitName",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getProjectAndUnitName(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);

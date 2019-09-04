@@ -61,25 +61,25 @@ public class StatisticalAnalysisController {
 	@Autowired
 	private YearPlanService yearPlanService;
 	
-	@RequiresPermissions("management/auxDeci/statisticalAnalysis#getprojectByHY#get")
+//	@RequiresPermissions("management/auxDeci/statisticalAnalysis#getprojectByHY#get")
 	@RequestMapping(name = "获取项目库中项目投资行业分布数据", path = "getprojectByHY",method=RequestMethod.GET)
 	public @ResponseBody List<sttisticsData> getprojectByHYData(){
 		return ProjectService.getprojectByHYData();
 	}
 	
-	@RequiresPermissions("management/auxDeci/statisticalAnalysis#getprojectInvestSource#get")
+//	@RequiresPermissions("management/auxDeci/statisticalAnalysis#getprojectInvestSource#get")
 	@RequestMapping(name = "获取项目库中项目投资来源分布数据", path = "getprojectInvestSource",method=RequestMethod.GET)
 	public @ResponseBody List<sttisticsData> getprojectInvestSource(){
 		return ProjectService.getprojectInvestSourceData();
 	}
 	
-	@RequiresPermissions("management/auxDeci/statisticalAnalysis#getyearPlanByHY#get")
+//	@RequiresPermissions("management/auxDeci/statisticalAnalysis#getyearPlanByHY#get")
 	@RequestMapping(name = "获取年度计划中项目投资行业分布数据", path = "getyearPlanByHY",method=RequestMethod.GET)
 	public @ResponseBody List<sttisticsData> getyearPlanByHYData(){
 		return yearPlanService.getyearPlanByHYData();
 	}
 	
-	@RequiresPermissions("management/auxDeci/statisticalAnalysis#getyearPlanInvestSource#get")
+//	@RequiresPermissions("management/auxDeci/statisticalAnalysis#getyearPlanInvestSource#get")
 	@RequestMapping(name = "获取年度计划中项目投资来源数据", path = "getyearPlanInvestSource",method=RequestMethod.GET)
 	public @ResponseBody List<sttisticsData> getyearPlanInvestSourceData(){
 		return yearPlanService.getyearPlanInvestSourceData();
@@ -452,7 +452,7 @@ public class StatisticalAnalysisController {
 	  }
 	}
 	
-	@RequiresPermissions("management/auxDeci/statisticalAnalysis#html/index#get")
+//	@RequiresPermissions("management/auxDeci/statisticalAnalysis#html/index#get")
 	@RequestMapping(name="统计分析主页",path="html/index",method=RequestMethod.GET)
 	public String index(){
 		return ctrl+"/index";

@@ -136,6 +136,28 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
 //        }
     }
 
+    /**
+     * 每年1月2日创建新的年度计划编制
+     * @return
+     */
+    @Override
+    @Transactional
+    public YearPlan createScheduled() {
+        YearPlan entity = new YearPlan();
+        Criterion criterion = Restrictions.eq(YearPlan_.year.getName(), year);
+        List<YearPlan> entitys = super.repository.findByCriteria(criterion);
+        if(CollectionUtils.isEmpty(entitys)){
+            entity.setYear(year);
+            entity.setId(UUID.randomUUID().toString());
+            entity.setIsDraftOrPlan(true);
+            entity.setName(year+"年计划编制");
+            entity.setRemark("本编制由系统于"+year+"年1月2日自动生成");
+            super.repository.save(entity);
+        }
+        logger.info(String.format("自动创建年度计划任务执行完毕"));
+        return entity;
+    }
+
     @Override
     @Transactional
     public YearPlan update(YearPlanDto dto, String id) {

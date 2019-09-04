@@ -26,9 +26,9 @@
     </bean>
 
     <!-- 缓存管理器 -->
-    <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-        <property name="cacheManager" ref="cacheManagerFactory"/>
-    </bean>
+    <!--<bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">-->
+        <!--<property name="cacheManager" ref="cacheManagerFactory"/>-->
+    <!--</bean>-->
 
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!-- Single realm app. If you have multiple realms, use the 'realms' property
@@ -41,7 +41,7 @@
         <!-- <property name="sessionMode" value="native"/> -->
 
         <!-- 注入缓存管理器 -->
-        <property name="cacheManager" ref="shiroCacheManager"/>
+        <!--<property name="cacheManager" ref="shiroCacheManager"/>-->
     </bean>
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
@@ -49,10 +49,10 @@
         your back-end -->
     <!-- security datasource: -->
     <bean id="myRealm" class="cs.common.SystemRealm">
-        <property name="cacheManager" ref="shiroCacheManager"/>
-        <property name="cachingEnabled" value="true"/>
-        <property name="authorizationCachingEnabled" value="true"/>
-        <property name="authorizationCacheName" value="authorizationCache"/>
+        <!--<property name="cacheManager" ref="shiroCacheManager"/>-->
+        <!--<property name="cachingEnabled" value="true"/>-->
+        <!--<property name="authorizationCachingEnabled" value="true"/>-->
+        <!--<property name="authorizationCacheName" value="authorizationCache"/>-->
     </bean>
 
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"

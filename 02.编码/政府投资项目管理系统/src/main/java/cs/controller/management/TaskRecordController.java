@@ -29,7 +29,7 @@ public class TaskRecordController {
 	@Autowired
 	ICurrentUser currentUser;
 
-	@RequiresPermissions("management/taskRecord##get")
+//	@RequiresPermissions("management/taskRecord##get")
 	@RequestMapping(name = "获取任务流程", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskRecordDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -43,7 +43,7 @@ public class TaskRecordController {
 		return taskRecordDtos;
 	}	
 	
-	@RequiresPermissions("management/taskRecord#shenPi#get")
+//	@RequiresPermissions("management/taskRecord#shenPi#get")
 	@RequestMapping(name = "获取审批类任务流程", path = "shenPi",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskRecordDto> getToDo_shenPi(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -52,7 +52,7 @@ public class TaskRecordController {
 		return taskRecordDtos;
 	}	
 	
-	@RequiresPermissions("management/taskRecord#plan#get")
+//	@RequiresPermissions("management/taskRecord#plan#get")
 	@RequestMapping(name = "获取计划类任务流程", path = "plan",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskRecordDto> getToDo_plan(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);

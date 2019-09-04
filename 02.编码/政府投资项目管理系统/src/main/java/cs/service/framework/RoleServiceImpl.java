@@ -45,37 +45,24 @@ public class RoleServiceImpl implements RoleService {
 
 		List<Role> listRole = roleRepository.findByOdata(odataObj);
 		List<RoleDto> roleDtoList = new ArrayList<RoleDto>();
-		if (!CollectionUtils.isEmpty(listRole)) {
-			for (Role item : listRole) {
-				RoleDto roleDto = new RoleDto();
-				roleDto.setId(item.getId());
-				roleDto.setRoleName(item.getRoleName());
-				roleDto.setCreatedDate(item.getCreatedDate());
-				roleDto.setComment(item.getComment());
+		for (Role item : listRole) {
+			RoleDto roleDto = new RoleDto();
+			roleDto.setId(item.getId());
+			roleDto.setRoleName(item.getRoleName());
+			roleDto.setCreatedDate(item.getCreatedDate());
+			roleDto.setComment(item.getComment());
 
-				List<ResourceDto> resourceDtoList = new ArrayList<>();
-				for (Resource resource : item.getResources()) {
-					ResourceDto resourceDto = new ResourceDto();
-					resourceDto.setMethod(resource.getMethod());
-					resourceDto.setName(resource.getName());
-					resourceDto.setPath(resource.getPath());
-					resourceDtoList.add(resourceDto);
-				}
-
-				List<UserDto> userDtoList = new ArrayList<>();
-				for(User user:item.getUsers()){
-					UserDto userDto = new UserDto();
-					userDto.setId(user.getId());
-					userDto.setDisplayName(user.getDisplayName());
-					userDto.setLoginName(user.getLoginName());
-					userDtoList.add(userDto);
-				}
-				roleDto.setResources(resourceDtoList);
-				roleDto.setUserDtos(userDtoList);
-				roleDtoList.add(roleDto);
+			List<ResourceDto> resourceDtoList = new ArrayList<>();
+			for (Resource resource : item.getResources()) {
+				ResourceDto resourceDto = new ResourceDto();
+				resourceDto.setMethod(resource.getMethod());
+				resourceDto.setName(resource.getName());
+				resourceDto.setPath(resource.getPath());
+				resourceDtoList.add(resourceDto);
 			}
+			roleDto.setResources(resourceDtoList);
+			roleDtoList.add(roleDto);
 		}
-
 		PageModelDto<RoleDto> pageModelDto = new PageModelDto<>();
 		pageModelDto.setCount(odataObj.getCount());
 		pageModelDto.setValue(roleDtoList);

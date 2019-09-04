@@ -28,7 +28,7 @@ public class UserUnitController {
 	@Autowired
 	ICurrentUser currentUser;
 	
-	@RequiresPermissions("management/userUnit##get")
+//	@RequiresPermissions("management/userUnit##get")
 	@RequestMapping(name = "获取用户单位信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserUnitInfoDto> getUserUnits(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);

@@ -56,6 +56,8 @@ public interface YearPlanService extends IService<YearPlanDto, YearPlan, String>
 	 * @return
 	 */
 	List<YearPlanStatistics> getStatistics(String planId,Map map);
+
+	YearPlan createScheduled();
 	/**
 	 * 根据项目类别统计
 	 * @param planId

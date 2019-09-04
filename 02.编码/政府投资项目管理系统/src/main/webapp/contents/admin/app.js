@@ -34,7 +34,32 @@
                 controllerAs: 'vm'
             })
         	//end#role
-        	
+
+            //begin#roleMenu
+            .state('roleMenu', {
+                url: '/roleMenu',
+                templateUrl:  '/roleMenu/html/list.html',
+                controller: 'roleMenuCtrl',
+                controllerAs: 'vm'
+            })
+            //end#roleMenu
+
+            //begin#roleMenuAdd
+            .state('roleMenu.add', {
+                url: '/roleMenu.add/:id',
+                templateUrl:  '/roleMenu/html/add.html',
+                controller: 'roleMenuAddCtrl',
+                controllerAs: 'vm'
+            })
+
+            .state('roleMenu.edit', {
+                url: '/roleMenu.edit/:id',
+                templateUrl:  '/roleMenu/html/edit.html',
+                controller: 'roleMenuEditCtrl',
+                controllerAs: 'vm'
+            })
+            //end#roleMenuAdd
+
         	//begin#user
 	        .state('user', {
 	            url: '/user',

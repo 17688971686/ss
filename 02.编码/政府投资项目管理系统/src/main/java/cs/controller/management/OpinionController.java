@@ -31,7 +31,7 @@ public class OpinionController {
 	@Autowired
 	private OpinionService opinionService;
 
-	@RequiresPermissions("opin#deleteOpin#post")
+//	@RequiresPermissions("opin#deleteOpin#post")
 	@RequestMapping(name = "删除意见", path = "deleteOpin",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  deleteOpin(@RequestBody String id)  {		
@@ -43,14 +43,14 @@ public class OpinionController {
 		}		
 	}
 	
-	@RequiresPermissions("opin#editOpin#post")
+//	@RequiresPermissions("opin#editOpin#post")
 	@RequestMapping(name = "编辑意见", path = "editOpin",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  updateOpin(@RequestBody OpinionDto opinDto)  {	
 		opinionService.editOpin(opinDto);	
 	}
 	
-	@RequiresPermissions("opin##get")	
+//	@RequiresPermissions("opin##get")
 	@RequestMapping(name = "获取常用意见", path = "", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<OpinionDto> getOpin(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -58,7 +58,7 @@ public class OpinionController {
 		return opinionDtos;
 	}
 	
-	@RequiresPermissions("opin##post")
+//	@RequiresPermissions("opin##post")
 	@RequestMapping(name = "保存意见", path = "",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  saveOpin(@RequestBody OpinionDto opinionDto)  {		

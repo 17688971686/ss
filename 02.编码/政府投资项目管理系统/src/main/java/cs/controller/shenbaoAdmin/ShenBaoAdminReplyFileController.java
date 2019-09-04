@@ -25,7 +25,7 @@ public class ShenBaoAdminReplyFileController {
 	@Autowired
 	private ReplyFileService replyFileService;
 	
-	@RequiresPermissions("shenbaoAdmin/replyFile##get")
+//	@RequiresPermissions("shenbaoAdmin/replyFile##get")
 	@RequestMapping(name = "获取批复文件信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ReplyFileDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);

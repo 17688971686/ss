@@ -51,7 +51,7 @@ public class ShenBaoAdminProjectMonthReportController {
 	
 	private String ctrlName = "shenbaoAdmin/projectMonthReport";
 	
-	@RequiresPermissions("shenbaoAdmin/projectMonthReport##get")
+//	@RequiresPermissions("shenbaoAdmin/projectMonthReport##get")
 	@RequestMapping(name = "获取单位项目月报信息", path = "unitProject",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getUnitProject(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -85,7 +85,7 @@ public class ShenBaoAdminProjectMonthReportController {
 		return projectDtos;
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/projectMonthReport##get")
+//	@RequiresPermissions("shenbaoAdmin/projectMonthReport##get")
 	@RequestMapping(name = "获取月报信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<MonthReportDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -93,7 +93,7 @@ public class ShenBaoAdminProjectMonthReportController {
 		return monthReports;
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/projectMonthReport##post")
+//	@RequiresPermissions("shenbaoAdmin/projectMonthReport##post")
 	@RequestMapping(name = "保存月报信息",path="",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void saveMonthReport(@RequestBody MonthReportDto monthReportDto){
@@ -103,13 +103,13 @@ public class ShenBaoAdminProjectMonthReportController {
 	/**
 	 * begin#html
 	 */
-	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/list#get")
+//	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/list#get")
 	@RequestMapping(name = "项目列表页", path = "html/list",method=RequestMethod.GET)
 	public String index() {
 		return this.ctrlName + "/list";
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/selectMonth#get")
+//	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/selectMonth#get")
 	@RequestMapping(name = "月份选择页面", path = "html/selectMonth",method=RequestMethod.GET)
 	public String fill(Model model) {
 		List<String> years=new ArrayList<>();
@@ -122,14 +122,14 @@ public class ShenBaoAdminProjectMonthReportController {
 		return this.ctrlName + "/selectMonth";
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/fillInfo#get")
+//	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/fillInfo#get")
 	@RequestMapping(name = "月报信息填写页面", path = "html/fillInfo",method=RequestMethod.GET)
 	public String fillInfo()  {
 		
 		return this.ctrlName + "/fillInfo";
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/details#get")
+//	@RequiresPermissions("shenbaoAdmin/projectMonthReport#html/details#get")
 	@RequestMapping(name = "月报信息页面", path = "html/details",method=RequestMethod.GET)
 	public String details()  {
 		

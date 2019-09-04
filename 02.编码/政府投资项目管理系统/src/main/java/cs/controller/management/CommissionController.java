@@ -30,7 +30,7 @@ public class CommissionController {
 	@Autowired
 	ICurrentUser currentUser;
 
-	@RequiresPermissions("management/proxy#id#get")
+//	@RequiresPermissions("management/proxy#id#get")
 	@RequestMapping(name = "获取评审委托信息", path = "{id}",method=RequestMethod.GET)
 	public @ResponseBody CommissionDto getDraft(@PathVariable String id) throws ParseException {
 		
@@ -38,7 +38,7 @@ public class CommissionController {
 		return commissionDto;
 	}	
 	
-	@RequiresPermissions("management/proxy#id#post")
+//	@RequiresPermissions("management/proxy#id#post")
 	@RequestMapping(name = "创建评审委托信息", path = "{id}",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  post(@RequestBody CommissionDto commissionDto,@PathVariable String id)  {		

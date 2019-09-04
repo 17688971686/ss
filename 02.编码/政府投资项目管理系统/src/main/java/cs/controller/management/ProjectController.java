@@ -45,7 +45,7 @@ public class ProjectController {
 	@Autowired
 	private ProjectService ProjectService;
 	
-	@RequiresPermissions("management/project##get")
+//	@RequiresPermissions("management/project##get")
 	@RequestMapping(name = "获取项目信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -59,7 +59,7 @@ public class ProjectController {
 		return ProjectService.getProjectMonth(map);
 	}
 	
-	@RequiresPermissions("management/project#unitName#get")
+//	@RequiresPermissions("management/project#unitName#get")
 	@RequestMapping(name = "获取项目信息--可查看单位名称", path = "unitName",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getProjectAndUnitName(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -80,7 +80,7 @@ public class ProjectController {
 		return map;
 	}
 
-	@RequiresPermissions("management/project##delete")
+//	@RequiresPermissions("management/project##delete")
 	@RequestMapping(name = "删除项目信息", path = "",method=RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  delete(@RequestBody String id){
@@ -93,7 +93,7 @@ public class ProjectController {
 		
 	}
 	
-	@RequiresPermissions("management/project#updateProject#post")
+//	@RequiresPermissions("management/project#updateProject#post")
 	@RequestMapping(name = "更新项目信息", path = "updateProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void  update(@RequestBody ProjectDto ProjectDto){		
@@ -137,7 +137,7 @@ public class ProjectController {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	@RequiresPermissions("management/project#isMonthReport#post")
+//	@RequiresPermissions("management/project#isMonthReport#post")
 	@RequestMapping(name = "更新项目是否填报状态", path = "isMonthReport",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateByIsMonthReport(@RequestBody Map data){
@@ -181,7 +181,7 @@ public class ProjectController {
 
 
 
-	@RequiresPermissions("management/project#updateDisbursed#post")
+//	@RequiresPermissions("management/project#updateDisbursed#post")
 	@RequestMapping(name = "更新已拨付资金", path = "updateDisbursed", method = RequestMethod.POST)
 	@ResponseBody
 	public UpdateDisbursedResultVO updateDisbursed(@RequestBody String fileName, HttpServletRequest request) {
@@ -194,14 +194,14 @@ public class ProjectController {
 		throw new IllegalArgumentException("文件格式错误，请上传xls或xlsx格式的Excel文件");
 	}
 
-	@RequiresPermissions("management/project#updateProject#post")
+//	@RequiresPermissions("management/project#updateProject#post")
 	@RequestMapping(name = "检查项目代码是否重复", path = "projectNumberExist", method = RequestMethod.GET)
 	@ResponseBody
 	public boolean projectNumberExist(@RequestParam String projectNumber, @RequestParam String ignoreProject) {
 		return ProjectService.projectNumberExists(projectNumber, ignoreProject);
 	}
 
-	@RequiresPermissions("management/project##post")
+//	@RequiresPermissions("management/project##post")
 	@RequestMapping(name = "创建项目信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void create(@RequestBody ProjectDto ProjectDto){		
@@ -218,37 +218,37 @@ public class ProjectController {
 	
 	
 	//begin#html
-	@RequiresPermissions("management/project#html/list#get")
+//	@RequiresPermissions("management/project#html/list#get")
 	@RequestMapping(name = "列表页", path = "html/list",method=RequestMethod.GET)
 	public String list() {
 		return this.ctrlName + "/list";
 	}
 	
-	@RequiresPermissions("management/project#html/edit#get")
+//	@RequiresPermissions("management/project#html/edit#get")
 	@RequestMapping(name = "编辑页", path = "html/edit",method=RequestMethod.GET)
 	public String edit() {
 		return this.ctrlName + "/edit";
 	}
 	
-	@RequiresPermissions("management/project#html/details#get")
+//	@RequiresPermissions("management/project#html/details#get")
 	@RequestMapping(name = "详情页", path = "html/details",method=RequestMethod.GET)
 	public String details() {
 		return this.ctrlName2 + "/projectInfo";
 	}
 	
-	@RequiresPermissions("management/project#html/list_SH#get")
+//	@RequiresPermissions("management/project#html/list_SH#get")
 	@RequestMapping(name = "社会投资项目列表页", path = "html/list_SH",method=RequestMethod.GET)
 	public String list_SH() {
 		return this.ctrlName + "/list_SH";
 	}
 
-	@RequiresPermissions("management/project#html/statistics#get")
+//	@RequiresPermissions("management/project#html/statistics#get")
 	@RequestMapping(name = "项目统计分析", path = "html/statistics", method = RequestMethod.GET)
 	public String statistics() {
 		return this.ctrlName + "/statistics";
 	}
 
-	@RequiresPermissions("management/project#html/updateDisbursed#get")
+//	@RequiresPermissions("management/project#html/updateDisbursed#get")
 	@RequestMapping(name = "已拨付数上传", path = "html/updateDisbursed", method = RequestMethod.GET)
 	public String updateDisbursed() {
 		return this.ctrlName + "/updateDisbursed";

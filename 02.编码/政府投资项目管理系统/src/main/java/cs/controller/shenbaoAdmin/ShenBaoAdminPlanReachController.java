@@ -132,7 +132,7 @@ public class ShenBaoAdminPlanReachController {
         }
     }
 
-    @RequiresPermissions("shenbaoAdmin/planReach#notInclud#get")
+//    @RequiresPermissions("shenbaoAdmin/planReach#notInclud#get")
     @RequestMapping(name = "获取未纳入年度计划的项目", path = "notInclud", method = RequestMethod.GET)
     @ResponseBody
     public PageModelDto<ProjectDto> getNotInclud(ODataObj odataObj) {
@@ -148,7 +148,7 @@ public class ShenBaoAdminPlanReachController {
         return projectDtos;
     }
 
-    @RequiresPermissions("shenbaoAdmin/planReach#hasInclud#get")
+//    @RequiresPermissions("shenbaoAdmin/planReach#hasInclud#get")
     @RequestMapping(name = "获取已纳入年度计划的项目", path = "hasInclud", method = RequestMethod.GET)
     @ResponseBody
     public PageModelDto<ShenBaoInfoDto> getHasInclud(ODataObj odataObj) {
@@ -165,7 +165,7 @@ public class ShenBaoAdminPlanReachController {
     }
 
     @SuppressWarnings("rawtypes")
-    @RequiresPermissions("shenbaoAdmin/planReach#comfirmPlanReach#post")
+//    @RequiresPermissions("shenbaoAdmin/planReach#comfirmPlanReach#post")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(name = "确定计划下达申请资金", path = "comfirmPlanReach", method = RequestMethod.POST)
     public void comfirmPlanReach(@RequestBody Map map) {
@@ -299,7 +299,7 @@ public class ShenBaoAdminPlanReachController {
     }
 
 
-    @RequiresPermissions("shenbaoAdmin/planReach#html/list#get")
+//    @RequiresPermissions("shenbaoAdmin/planReach#html/list#get")
     @RequestMapping(name = "列表页", path = "html/list", method = RequestMethod.GET)
     public String list() {
         return this.ctrlName + "/list";

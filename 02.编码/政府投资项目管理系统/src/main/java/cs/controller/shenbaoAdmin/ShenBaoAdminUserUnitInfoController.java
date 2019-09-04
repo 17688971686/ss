@@ -42,7 +42,7 @@ public class ShenBaoAdminUserUnitInfoController {
 	private UserUnitInfoService userUnitInfoService;
 	@Autowired
 	private UserService userService;
-	@RequiresPermissions("shenbaoAdmin/userUnitInfo#id#get")
+//	@RequiresPermissions("shenbaoAdmin/userUnitInfo#id#get")
 	
 	@RequestMapping(name = "获取用户的单位数据", path = "id", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserUnitInfoDto> getProjectUnit(HttpServletRequest request) throws ParseException{
@@ -75,7 +75,7 @@ public class ShenBaoAdminUserUnitInfoController {
 		return userUnitInfoDto1;
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/userUnitInfo##post")	
+//	@RequiresPermissions("shenbaoAdmin/userUnitInfo##post")
 	@RequestMapping(name = "保存当前用户的单位数据", path = "", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public @ResponseBody void post(@RequestBody UserUnitInfoDto userUnitInfoDto){

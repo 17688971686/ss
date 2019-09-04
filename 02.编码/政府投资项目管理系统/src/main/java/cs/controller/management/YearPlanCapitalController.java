@@ -29,7 +29,7 @@ public class YearPlanCapitalController {
 	@Autowired
 	private YearPlanCapitalService yearPlanCapitalService;
 	
-	@RequiresPermissions("management/yearPlanCapital##get")
+//	@RequiresPermissions("management/yearPlanCapital##get")
 	@RequestMapping(name="获取年度计划编制信息",path="",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<YearPlanCapitalDto> get(HttpServletRequest request) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
@@ -37,14 +37,14 @@ public class YearPlanCapitalController {
 		return yearPlanCapitalDtos;
 	}
 	
-	@RequiresPermissions("management/yearPlanCapital#updateYearPlanCapital#post")
+//	@RequiresPermissions("management/yearPlanCapital#updateYearPlanCapital#post")
 	@RequestMapping(name="更新年度计划编制信息",path="updateYearPlanCapital",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void put(@RequestBody YearPlanCapitalDto dto){
 		yearPlanCapitalService.update(dto,dto.getId());
 	}
 	
-	@RequiresPermissions("management/yearPlanCapital##post")
+//	@RequiresPermissions("management/yearPlanCapital##post")
 	@RequestMapping(name="添加年度计划编制资金",path="",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void post(@RequestBody String id){

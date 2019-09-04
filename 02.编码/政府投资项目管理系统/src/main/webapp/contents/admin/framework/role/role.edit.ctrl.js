@@ -5,7 +5,7 @@
         .module('app')
         .controller('roleEditCtrl', role);
 
-    role.$inject = ['$location','roleSvc','$state']; 
+    role.$inject = ['$location','roleSvc','$state'];
 
     function role($location, roleSvc,$state) {
         /* jshint validthis:true */
@@ -17,7 +17,7 @@
             vm.isUpdate = true;
             vm.title = '更新角色';
         }
-        
+
         vm.create = function () {
         	roleSvc.createRole(vm);
         };

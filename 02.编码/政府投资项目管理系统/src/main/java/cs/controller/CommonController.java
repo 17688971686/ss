@@ -200,8 +200,7 @@ public class CommonController {
 
 		objectMapper.writeValue(res.getOutputStream(), response);
 	}
-
-
+	
 //	@RequiresPermissions("common#remove#post")
 	@RequestMapping(name = "删除上传文件", path = "remove", method = RequestMethod.POST)
 	public @ResponseBody String remove(HttpServletRequest request){

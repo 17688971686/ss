@@ -52,4 +52,8 @@ public interface UserService {
 
 	Map<String, Object> getRolesIntoMap(Map<String, Object> map);
 
+	void setPermissions(String key,Set<String> permissions);
+
+	Set<String > getPermissions(String key);
+
 }

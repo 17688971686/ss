@@ -57,7 +57,7 @@ public class ShenBaoAdminProjectController {
 		return ProjectDtos;
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/project#unitProject#get")
+//	@RequiresPermissions("shenbaoAdmin/project#unitProject#get")
 	@RequestMapping(name = "获取单位项目信息(包含所有已纳入项目库的项目)", path = "unitProject",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ProjectDto> getUnitProject(HttpServletRequest request) throws ParseException {
 		//根据登陆名查找到单位信息
@@ -113,14 +113,14 @@ public class ShenBaoAdminProjectController {
 		return ProjectDtos;
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/project#unitProject#post")
+//	@RequiresPermissions("shenbaoAdmin/project#unitProject#post")
 	@RequestMapping(name = "创建单位项目信息", path = "unitProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void createUnitProject(@RequestBody ProjectDto ProjectDto){		
 		projectService.create(ProjectDto);
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/project#updateUnitProject#post")
+//	@RequiresPermissions("shenbaoAdmin/project#updateUnitProject#post")
 	@RequestMapping(name = "更新单位项目信息", path = "updateUnitProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateUnitProject(@RequestBody ProjectDto projectDto){
@@ -165,7 +165,7 @@ public class ShenBaoAdminProjectController {
 
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/project#deleteUnitProject#post")
+//	@RequiresPermissions("shenbaoAdmin/project#deleteUnitProject#post")
 	@RequestMapping(name = "删除单位项目信息", path = "deleteUnitProject",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteUnitProject(@RequestBody String id){
@@ -197,19 +197,19 @@ public class ShenBaoAdminProjectController {
 		return ProjectDtos;
 	}*/
 	
-	@RequiresPermissions("shenbaoAdmin/project#html/list#get")
+//	@RequiresPermissions("shenbaoAdmin/project#html/list#get")
 	@RequestMapping(name = "列表页", path = "html/list",method=RequestMethod.GET)
 	public String list() {
 		return this.ctrlName + "/list";
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/project#html/edit#get")
+//	@RequiresPermissions("shenbaoAdmin/project#html/edit#get")
 	@RequestMapping(name = "编辑页", path = "html/edit",method=RequestMethod.GET)
 	public String edit() {
 		return this.ctrlName + "/edit";
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/project#html/projectInfo#get")
+//	@RequiresPermissions("shenbaoAdmin/project#html/projectInfo#get")
 	@RequestMapping(name = "详情页", path = "html/projectInfo",method=RequestMethod.GET)
 	public String projectInfo() {
 		return this.ctrlName + "/projectInfo";

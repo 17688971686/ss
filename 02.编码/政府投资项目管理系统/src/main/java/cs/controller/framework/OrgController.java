@@ -34,7 +34,7 @@ public class OrgController {
 	@Autowired
 	private OrgService orgService;
 
-	@RequiresPermissions("org##get")	
+//	@RequiresPermissions("org##get")
 	@RequestMapping(name = "获取部门数据", path = "", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<OrgDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -43,21 +43,21 @@ public class OrgController {
 		return orgDtos;
 	}
 
-	@RequiresPermissions("org##post")	
+//	@RequiresPermissions("org##post")
 	@RequestMapping(name = "创建部门", path = "", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void post(@RequestBody OrgDto orgDto) {
 		orgService.createOrg(orgDto);
 	}
 
-	@RequiresPermissions("org#updateOrg#post")	
+//	@RequiresPermissions("org#updateOrg#post")
 	@RequestMapping(name = "更新部门", path = "updateOrg", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody OrgDto orgDto) {
 		orgService.updateOrg(orgDto);
 	}
 
-	@RequiresPermissions("org#deleteOrg#post")	
+//	@RequiresPermissions("org#deleteOrg#post")
 	@RequestMapping(name = "删除部门", path = "deleteOrg", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id) {
@@ -69,14 +69,14 @@ public class OrgController {
 		}
 	}
 
-	@RequiresPermissions("org#orgId/users#get")	
+//	@RequiresPermissions("org#orgId/users#get")
 	@RequestMapping(name = "部门用户", path = "{orgId}/users", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserDto> orgUsers(@PathVariable String orgId) {
 
 		return orgService.getOrgUsers(orgId);
 	}
 	
-	@RequiresPermissions("org#orgId/userNotIn#get")	
+//	@RequiresPermissions("org#orgId/userNotIn#get")
 	@RequestMapping(name = "非部门用户", path = "{orgId}/userNotIn", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserDto> userNotIn(@PathVariable String orgId,HttpServletRequest request) throws ParseException {
 
@@ -84,14 +84,14 @@ public class OrgController {
 		return orgService.getUsersNotInOrg(orgId, odataObj);
 	}
 	
-	@RequiresPermissions("org#orgId/users#post")	
+//	@RequiresPermissions("org#orgId/users#post")
 	@RequestMapping(name = "添加用户到部门", path = "{orgId}/users", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void postUserToOrg(@PathVariable String orgId,@RequestBody String userId) {
 		orgService.addUserToOrg(userId, orgId);
 	}
 	
-	@RequiresPermissions("org#orgId/deleteUsers#post")
+//	@RequiresPermissions("org#orgId/deleteUsers#post")
 	@RequestMapping(name = "从部门移除用户", path = "{orgId}/deleteUsers", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteUserFromOrg(@PathVariable String orgId,@RequestBody String userId) {
@@ -107,19 +107,19 @@ public class OrgController {
 	
 	// begin#html
 	
-	@RequiresPermissions("org#html/list#get")
+//	@RequiresPermissions("org#html/list#get")
 	@RequestMapping(name = "部门列表页面", path = "html/list", method = RequestMethod.GET)
 	public String list() {
 		return ctrlName + "/list";
 	}
 
-	@RequiresPermissions("org#html/edit#get")
+//	@RequiresPermissions("org#html/edit#get")
 	@RequestMapping(name = "编辑部门页面", path = "html/edit", method = RequestMethod.GET)
 	public String edit() {
 		return ctrlName + "/edit";
 	}
 
-	@RequiresPermissions("org#html/orgUser#get")
+//	@RequiresPermissions("org#html/orgUser#get")
 	@RequestMapping(name = "部门用户列表页面", path = "html/orgUser", method = RequestMethod.GET)
 	public String listUser() {
 		return ctrlName + "/list_user";

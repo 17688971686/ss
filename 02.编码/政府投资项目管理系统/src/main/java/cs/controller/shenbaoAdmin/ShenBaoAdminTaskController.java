@@ -30,7 +30,7 @@ public class ShenBaoAdminTaskController {
 	@Autowired
 	private ICurrentUser currentUser;
 	
-	@RequiresPermissions("shenbaoAdmin/task##get")
+//	@RequiresPermissions("shenbaoAdmin/task##get")
 	@RequestMapping(name = "获取当前用户所有的任务流程", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<TaskHeadDto> getToDo(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -44,7 +44,7 @@ public class ShenBaoAdminTaskController {
 		return taskHeadDtos;
 	}
 				
-	@RequiresPermissions("shenbaoAdmin/task#html/list#get")
+//	@RequiresPermissions("shenbaoAdmin/task#html/list#get")
 	@RequestMapping(name = "列表页", path = "html/list",method=RequestMethod.GET)
 	public String list() {
 		return this.ctrlName + "/list";

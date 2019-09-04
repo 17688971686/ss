@@ -49,28 +49,28 @@ public class ShenBaoController {
 		return reMap;
 	}
 	
-	@RequiresPermissions("management/shenbao##post")
+//	@RequiresPermissions("management/shenbao##post")
 	@RequestMapping(name = "创建申报数据", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void create(@RequestBody ShenBaoInfoDto dto){
 		shenBaoInfoService.createShenBaoInfo(dto,true);
 	}
 	
-	@RequiresPermissions("management/shenbao#updateShenbao#post")
+//	@RequiresPermissions("management/shenbao#updateShenbao#post")
 	@RequestMapping(name = "申报端更新申报数据", path = "updateShenbao",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateShenBaoInfo(@RequestBody ShenBaoInfoDto dto){
 		shenBaoInfoService.updateShenBaoInfo(dto,false);
 	}
 	
-	@RequiresPermissions("management/shenbao#update#post")
+//	@RequiresPermissions("management/shenbao#update#post")
 	@RequestMapping(name = "管理端更新申报数据", path = "update",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody ShenBaoInfoDto dto){
 		shenBaoInfoService.updateShenBaoInfo(dto,true);
 	}
 	
-	@RequiresPermissions("management/shenbao#addProjectToLibrary#post")
+//	@RequiresPermissions("management/shenbao#addProjectToLibrary#post")
 	@RequestMapping(name = "项目纳入项目库", path = "addProjectToLibrary",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void addProjectToLibrary(@RequestParam String shenbaoInfoId){
@@ -84,14 +84,14 @@ public class ShenBaoController {
 		shenBaoInfoService.outProjectToLibrary(shenbaoInfoId);
 	}
 	
-	@RequiresPermissions("management/shenbao#updateProjectBasic#post")
+//	@RequiresPermissions("management/shenbao#updateProjectBasic#post")
 	@RequestMapping(name = "更新项目基础信息", path = "updateProjectBasic",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void updateProjectBasic(@RequestBody ShenBaoInfoDto dto){
 		shenBaoInfoService.updateProjectBasic(dto);
 	}
 	
-	@RequiresPermissions("management/shenbao#updateState#post")
+//	@RequiresPermissions("management/shenbao#updateState#post")
 	@RequestMapping(name = "更新申报数据的审批状态（退文）", path = "updateState",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void updateState(@RequestBody ShenBaoInfoDto shenBaoInfoDto){

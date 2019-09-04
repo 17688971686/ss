@@ -33,7 +33,7 @@ public class DraftIssuedController {
 	@Autowired
 	ICurrentUser currentUser;
 
-	@RequiresPermissions("management/draft##get")
+//	@RequiresPermissions("management/draft##get")
 	@RequestMapping(name = "获取发文拟稿信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<DraftIssuedDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -42,7 +42,7 @@ public class DraftIssuedController {
 		
 	}	
 	
-	@RequiresPermissions("management/draft##post")
+//	@RequiresPermissions("management/draft##post")
 	@RequestMapping(name = "保存发文拟稿信息", path = "",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  post(@RequestBody DraftIssuedDto draftIssuedDto)  {		

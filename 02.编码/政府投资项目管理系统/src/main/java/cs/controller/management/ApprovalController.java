@@ -33,7 +33,7 @@ public class ApprovalController {
 	@Autowired
 	ICurrentUser currentUser;
 
-	@RequiresPermissions("management/approval##get")
+//	@RequiresPermissions("management/approval##get")
 	@RequestMapping(name = "获取评审报批信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ApprovalDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -41,7 +41,7 @@ public class ApprovalController {
 		return approvalDto;
 	}	
 	
-	@RequiresPermissions("management/approval##post")
+//	@RequiresPermissions("management/approval##post")
 	@RequestMapping(name = "保存评审报批信息", path = "",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  post(@RequestBody ApprovalDto approvalDto)  throws Exception{		

@@ -42,14 +42,14 @@ public class SysController {
 	
 	private String ctrl="management/sysConfig";
 
-	@RequiresPermissions("sys#resource#get")
+//	@RequiresPermissions("sys#resource#get")
 	@RequestMapping(name = "获取系统资源数据", path = "resource", method = RequestMethod.GET)
 	public @ResponseBody List<SysResourceDto> get(HttpServletRequest request) {
 		List<SysResourceDto> ZTreeList = sysService.getSysResources();
 		return ZTreeList;
 	}
 	
-	@RequiresPermissions("sys#create#post")
+//	@RequiresPermissions("sys#create#post")
 	@RequestMapping(name = "设置task签收人", path = "create", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public  void create(@RequestBody List<SysConfigDto> sysConfigDtos) {		
@@ -65,7 +65,7 @@ public class SysController {
 		
 	}
 	
-	@RequiresPermissions("sys#getSysConfigs#get")
+//	@RequiresPermissions("sys#getSysConfigs#get")
 	@RequestMapping(name = "获取所有的系统配置信息", path = "getSysConfigs", method = RequestMethod.GET)
 	public @ResponseBody List<SysConfigDto> initUser() {
 		List<SysConfigDto> list = sysService.getSysConfigs();
@@ -73,7 +73,7 @@ public class SysController {
 				
 	}
 	
-	@RequiresPermissions("sys#getSysConfig#get")
+//	@RequiresPermissions("sys#getSysConfig#get")
 	@RequestMapping(name = "获取单个系统配置信息", path = "getSysConfig", method = RequestMethod.GET)
 	public @ResponseBody SysConfigDto getSysConfig(@RequestParam(required = false) String configName) {
 		SysConfigDto dto = sysService.getSysConfig(configName);
@@ -134,7 +134,7 @@ public class SysController {
 		}
 	}
 	//begin#html
-	@RequiresPermissions("sys#html/index#get")
+//	@RequiresPermissions("sys#html/index#get")
 	@RequestMapping(name = "系统配置主页", path = "html/index", method = RequestMethod.GET)
 	public String index(){
 		return ctrl+"/index";

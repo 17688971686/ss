@@ -49,7 +49,7 @@ public class ShenBaoAdminShenBaoController {
 	private UserUnitInfoService userUnitInfoService;
 	private String processDefinitionKey = "ShenpiReview";
 	
-	@RequiresPermissions("shenbaoAdmin/shenbao##get")
+//	@RequiresPermissions("shenbaoAdmin/shenbao##get")
 	@RequestMapping(name = "获取申报信息", path = "",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> get(HttpServletRequest request) throws ParseException{
 		PageModelDto<ShenBaoInfoDto> shenBaoInfoDtos = null;
@@ -93,7 +93,7 @@ public class ShenBaoAdminShenBaoController {
 		shenBaoInfoService.reback(processId);
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/shenbao#unit#get")
+//	@RequiresPermissions("shenbaoAdmin/shenbao#unit#get")
 	@RequestMapping(name = "获取单位申报信息", path = "unit",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<ShenBaoInfoDto> getByUnit(HttpServletRequest request) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);
@@ -130,7 +130,7 @@ public class ShenBaoAdminShenBaoController {
 		return shenBaoInfoDtos;	
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/shenbao##post")
+//	@RequiresPermissions("shenbaoAdmin/shenbao##post")
 	@RequestMapping(name = "创建申报信息", path = "",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void create(@RequestBody ShenBaoInfoDto shenBaoInfoDto){
@@ -150,14 +150,14 @@ public class ShenBaoAdminShenBaoController {
 		shenBaoInfoService.startProcessShenbao(processDefinitionKey, projectId);
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/shenbao#updateShenbao#post")
+//	@RequiresPermissions("shenbaoAdmin/shenbao#updateShenbao#post")
 	@RequestMapping(name = "更新申报信息", path = "updateShenbao",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void update(@RequestBody ShenBaoInfoDto shenBaoInfoDto){
 		shenBaoInfoService.updateShenBaoInfo(shenBaoInfoDto,false);	
 	}
 	
-	@RequiresPermissions("shenbaoAdmin/shenbao#deleteShenbao#post")
+//	@RequiresPermissions("shenbaoAdmin/shenbao#deleteShenbao#post")
 	@RequestMapping(name = "删除申报信息", path = "deleteShenbao",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id){

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -58,6 +59,18 @@ public class UserServiceImpl implements UserService {
     private IRepository<ShenPiUnit, String> shenpiUnitRepo;
     @Autowired
     private ActivitiService activitiService;
+    private static ConcurrentHashMap<String, Set<String >> Permissions = new ConcurrentHashMap<String,Set<String >>();
+
+
+    @Override
+    public void setPermissions(String key,Set<String > permissions){
+        Permissions.put(key,permissions);
+    }
+
+    @Override
+    public Set<String > getPermissions(String key){
+        return Permissions.get(key);
+    }
 
     @Override
     public PageModelDto<UserDto> get(ODataObj odataObj) {
@@ -444,6 +457,9 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //登录刷新权限
+        Set<String > permissions=this.getCurrentUserPermissions();
+        this.setPermissions(userName,permissions);
         return response;
     }
 

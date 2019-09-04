@@ -30,7 +30,7 @@ public class ReviewResultController {
 	@Autowired
 	ICurrentUser currentUser;
 
-	@RequiresPermissions("management/review#id#get")
+//	@RequiresPermissions("management/review#id#get")
 	@RequestMapping(name = "获取评审报批信息", path = "{id}",method=RequestMethod.GET)
 	public @ResponseBody ReviewResultDto getReviewResult(@PathVariable String id) throws ParseException {
 		
@@ -38,7 +38,7 @@ public class ReviewResultController {
 		return reviewResultDto;
 	}	
 	
-	@RequiresPermissions("management/review#id#post")
+//	@RequiresPermissions("management/review#id#post")
 	@RequestMapping(name = "创建评审报批信息", path = "{id}",method=RequestMethod.POST)	
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public void  post(@RequestBody ReviewResultDto reviewResultDto,@PathVariable String id)  {		

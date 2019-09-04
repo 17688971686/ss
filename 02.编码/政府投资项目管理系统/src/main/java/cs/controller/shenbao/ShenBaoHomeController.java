@@ -3,6 +3,7 @@ package cs.controller.shenbao;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 import javax.servlet.http.HttpServletRequest;
@@ -105,6 +106,10 @@ public class ShenBaoHomeController {
 				currentUser.setLoginName(user2.getLoginName());
 				currentUser.setDisplayName(user2.getDisplayName());
 				currentUser.setUserId(user2.getId());
+
+				Set<String > permissions=userService.getCurrentUserPermissions();
+				userService.setPermissions(userDto.getLoginName(),permissions);
+
 				Date lastLoginDate = user2.getLastLoginDate();
 				if (lastLoginDate != null) {
 					currentUser.setLastLoginDate(user2.getLastLoginDate());

@@ -33,6 +33,8 @@ public class SysResourceDto {
 	 * 方法
 	 */
 	private String method;
+
+	private Integer itemOrder;
 	public String getId() {
 		return id;
 	}
@@ -69,5 +71,12 @@ public class SysResourceDto {
 	public void setMethod(String method) {
 		this.method = method;
 	}
-	
+
+	public Integer getItemOrder() {
+		return itemOrder;
+	}
+
+	public void setItemOrder(Integer itemOrder) {
+		this.itemOrder = itemOrder;
+	}
 }

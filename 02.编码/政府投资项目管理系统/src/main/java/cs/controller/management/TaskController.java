@@ -228,99 +228,99 @@ public class TaskController {
 
     /****************申报阶段：下一年度计划******************/
     // begin#html
-    @RequiresPermissions("management/task#html/todo#get")
+//    @RequiresPermissions("management/task#html/todo#get")
     @RequestMapping(name = "待办列表页--下一年度计划", path = "html/todo", method = RequestMethod.GET)
     public String todo() {
         return ctrl + "/yearPlan/todo";
     }
 
-    @RequiresPermissions("management/task#html/complete#get")
+//    @RequiresPermissions("management/task#html/complete#get")
     @RequestMapping(name = "已办列表页--下一年度计划", path = "html/complete", method = RequestMethod.GET)
     public String complete() {
         return ctrl + "/yearPlan/complete";
     }
 
-    @RequiresPermissions("management/task#html/handle#get")
+//    @RequiresPermissions("management/task#html/handle#get")
     @RequestMapping(name = "待办处理页面--下一年度计划", path = "html/handle", method = RequestMethod.GET)
     public String handle() {
         return ctrl + "/yearPlan/handle";
     }
 
     /****************申报阶段：审批类******************/
-    @RequiresPermissions("management/task#html/todo_audit#get")
+//    @RequiresPermissions("management/task#html/todo_audit#get")
     @RequestMapping(name = "待办列表页--审批类", path = "html/todo_audit", method = RequestMethod.GET)
     public String todo_audit() {
         return ctrl + "/audit/todo";
     }
 
-    @RequiresPermissions("management/task#html/todo_audit_other#get")
+//    @RequiresPermissions("management/task#html/todo_audit_other#get")
     @RequestMapping(name = "科室列表页--审批类", path = "html/todo_audit_other", method = RequestMethod.GET)
     public String todo_audit_other() {
         return ctrl + "/audit/todo_audit_other";
     }
 
-    @RequiresPermissions("management/task#html/todo_audit#get")
+//    @RequiresPermissions("management/task#html/todo_audit#get")
     @RequestMapping(name = "待办处理页--审批类", path = "html/handle_audit", method = RequestMethod.GET)
     public String handle_audit() {
         return ctrl + "/audit/handle_audit";
     }
 
-    @RequiresPermissions("management/task#html/handle_keshi#get")
+//    @RequiresPermissions("management/task#html/handle_keshi#get")
     @RequestMapping(name = "待办处理页--审批类", path = "html/handle_keshi", method = RequestMethod.GET)
     public String handle_keshi() {
         return ctrl + "/audit/handle_keshi";
     }
 
-    @RequiresPermissions("management/task#html/complete_shenPi#get")
+//    @RequiresPermissions("management/task#html/complete_shenPi#get")
     @RequestMapping(name = "已办列表页--审批类", path = "html/complete_shenPi", method = RequestMethod.GET)
     public String complete_shenPi() {
         return ctrl + "/audit/complete_shenPi";
     }
 
-    @RequiresPermissions("management/task#html/shenPiDetails#get")
+//    @RequiresPermissions("management/task#html/shenPiDetails#get")
     @RequestMapping(name = "已办流程--审批类展示信息", path = "html/shenPiDetails", method = RequestMethod.GET)
     public String shenPiDetails() {
         return ctrl + "/audit/shenPiDetails";
     }
 
     /****************申报阶段：计划类******************/
-    @RequiresPermissions("management/task#html/todo_plan#get")
+//    @RequiresPermissions("management/task#html/todo_plan#get")
     @RequestMapping(name = "待办列表页--计划类", path = "html/todo_plan", method = RequestMethod.GET)
     public String todo_plan() {
         return ctrl + "/plan/todo";
     }
 
-    @RequiresPermissions("management/task#html/todo_plan_other#get")
+//    @RequiresPermissions("management/task#html/todo_plan_other#get")
     @RequestMapping(name = "科室列表页--计划类", path = "html/todo_plan_other", method = RequestMethod.GET)
     public String todo_plan_other() {
         return ctrl + "/plan/todo_plan_other";
     }
 
-    @RequiresPermissions("management/task#html/todo_yuepi#get")
+//    @RequiresPermissions("management/task#html/todo_yuepi#get")
     @RequestMapping(name = "阅批栏", path = "html/todo_yuepi", method = RequestMethod.GET)
     public String todo_plan_yuepi() {
         return ctrl + "/yuepi/todo_yuepi";
     }
 
-    @RequiresPermissions("management/task#html/handle_yuepi#get")
+//    @RequiresPermissions("management/task#html/handle_yuepi#get")
     @RequestMapping(name = "待办处理页--审批类", path = "html/handle_yuepi", method = RequestMethod.GET)
     public String handle_yuepi() {
         return ctrl + "/yuepi/handle_yuepi";
     }
 
-    @RequiresPermissions("management/task#html/handle_plan#get")
+//    @RequiresPermissions("management/task#html/handle_plan#get")
     @RequestMapping(name = "待办处理页--计划类", path = "html/handle_plan", method = RequestMethod.GET)
     public String handle_plan() {
         return ctrl + "/plan/handle_plan";
     }
 
-    @RequiresPermissions("management/task#html/complete_plan#get")
+//    @RequiresPermissions("management/task#html/complete_plan#get")
     @RequestMapping(name = "已办列表页--计划类", path = "html/complete_plan", method = RequestMethod.GET)
     public String complete_plan() {
         return ctrl + "/plan/complete_plan";
     }
 
-    @RequiresPermissions("management/task#html/planDetails#get")
+//    @RequiresPermissions("management/task#html/planDetails#get")
     @RequestMapping(name = "已办列表页--计划类展示信息", path = "html/planDetails", method = RequestMethod.GET)
     public String planDetails() {
         return ctrl + "/plan/planDetails";

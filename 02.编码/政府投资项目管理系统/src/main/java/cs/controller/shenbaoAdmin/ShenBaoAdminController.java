@@ -23,7 +23,7 @@ public class ShenBaoAdminController {
 	
 	private String ctrlName = "shenbaoAdmin/home";
 	
-	@RequiresPermissions("shenbaoAdmin##get")
+//	@RequiresPermissions("shenbaoAdmin##get")
 	@RequestMapping(name = "首页", path = "",method=RequestMethod.GET)
 	public String index(Model model) {				
 		Date date=new Date();
@@ -33,7 +33,7 @@ public class ShenBaoAdminController {
 		return this.ctrlName + "/index";
 	}
 	
-	@RequiresPermissions("shenbaoAdmin#html/welcome#get")
+//	@RequiresPermissions("shenbaoAdmin#html/welcome#get")
 	@RequestMapping(name = "管理中心页面", path = "html/welcome",method=RequestMethod.GET)
 	public String welcome(Model model) {
 		String lastLoginDate="";

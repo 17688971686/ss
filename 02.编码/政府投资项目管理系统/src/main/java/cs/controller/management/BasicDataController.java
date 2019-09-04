@@ -25,7 +25,7 @@ public class BasicDataController {
 	
 	private String ctrl ="management/basicData";
 
-	@RequiresPermissions("management/basicData##post")
+//	@RequiresPermissions("management/basicData##post")
 	@RequestMapping(name="创建基础数据",path="",method=RequestMethod.POST)
 	@ResponseStatus(value=HttpStatus.CREATED)
 	public void post(@RequestBody BasicDataDto basicDataDto){
@@ -33,7 +33,7 @@ public class BasicDataController {
 		basicDataService.reloadData();
 	}
 	
-	@RequiresPermissions("management/basicData#deleteBasicData#post")
+//	@RequiresPermissions("management/basicData#deleteBasicData#post")
 	@RequestMapping(name="删除基础数据",path="deleteBasicData",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void delete(@RequestBody String id){			
@@ -41,7 +41,7 @@ public class BasicDataController {
 		basicDataService.reloadData();
 	}
 	
-	@RequiresPermissions("management/basicData#updateBasicData#post")
+//	@RequiresPermissions("management/basicData#updateBasicData#post")
 	@RequestMapping(name="更新基础数据",path="updateBasicData",method=RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void update(@RequestBody BasicDataDto basicDataDto){			
@@ -50,7 +50,7 @@ public class BasicDataController {
 	}
 	
 	//begin#html
-	@RequiresPermissions("management/basicData#html/index#get")
+//	@RequiresPermissions("management/basicData#html/index#get")
 	@RequestMapping(name="基础数据管理页面",path="html/index",method=RequestMethod.GET)
 	public String index(){
 		return ctrl+"/index";

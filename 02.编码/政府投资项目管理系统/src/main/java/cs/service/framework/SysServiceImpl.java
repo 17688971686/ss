@@ -10,6 +10,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
+import cs.domain.framework.*;
+import cs.repository.framework.*;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -25,21 +27,9 @@ import cs.common.sysResource.ClassFinder;
 import cs.common.sysResource.SysResourceDto;
 import cs.domain.BasicData;
 import cs.domain.UserUnitInfo;
-import cs.domain.framework.Org;
-import cs.domain.framework.Resource;
-import cs.domain.framework.Role;
-import cs.domain.framework.Role_;
-import cs.domain.framework.SysConfig;
-import cs.domain.framework.SysConfig_;
-import cs.domain.framework.User;
-import cs.domain.framework.User_;
 import cs.model.DomainDto.SysConfigDto;
 import cs.model.DtoMapper.IMapper;
 import cs.repository.common.BasicDataRepo;
-import cs.repository.framework.OrgRepoImpl;
-import cs.repository.framework.RoleRepoImpl;
-import cs.repository.framework.SysConfigRepoImpl;
-import cs.repository.framework.UserRepoImpl;
 import cs.repository.interfaces.IRepository;
 
 @Service
@@ -62,49 +52,49 @@ public class SysServiceImpl implements SysService {
     private IMapper<SysConfigDto, SysConfig> sysConfigMapper;
     @Autowired
     ICurrentUser currentUser;
+    @Autowired
+    private AdminResourceRepo adminResourceRepo;
 
     @Override
     public List<SysResourceDto> getSysResources() {
 
-        List<SysResourceDto> resources = new ArrayList<SysResourceDto>();
-        List<Class<?>> classes = ClassFinder.find("cs.controller");
-        for (Class<?> obj : classes) {
+        List<SysResourceDto> sysResourceDtos = new ArrayList<SysResourceDto>();
+        //查询所有的权限记录
+        List<AdminResource> adminResources = adminResourceRepo.findAll();
+        Assert.notEmpty(adminResources,"权限记录为空");
+        adminResources.forEach(x -> {
+            if(x.getItemOrder() == 0) {
+                SysResourceDto sysResourceDto = new SysResourceDto();
+                sysResourceDto.setName(x.getName());
+                sysResourceDto.setPath(x.getPath());
+                sysResourceDto.setId(x.getId());
+                sysResourceDto.setItemOrder(x.getItemOrder());
 
-            if (obj.isAnnotationPresent(RequestMapping.class)) {
-                SysResourceDto resource = new SysResourceDto();
+                sysResourceDto.setChildren(this.pushManySysResource(adminResources,x.getId()));
+                sysResourceDtos.add(sysResourceDto);
+            }
+        });
 
-                Annotation classAnnotation = obj.getAnnotation(RequestMapping.class);
-                RequestMapping classAnnotationInfo = (RequestMapping) classAnnotation;
+        return sysResourceDtos;
+    }
 
-                resource.setName(classAnnotationInfo.name());
-                resource.setPath(classAnnotationInfo.path()[0]);
+    //获取树形结构数据
+    private List<SysResourceDto> pushManySysResource(List<AdminResource> list,String pid){
+        List<SysResourceDto> sysResourceDtos = new ArrayList<SysResourceDto>();
+        list.forEach(x -> {
+            if(pid.equals(x.getParentId())) {
+                SysResourceDto sysResourceDto = new SysResourceDto();
+                sysResourceDto.setName(x.getName());
+                sysResourceDto.setPath(x.getPath());
+                sysResourceDto.setId(x.getId());
+                sysResourceDto.setItemOrder(x.getItemOrder());
 
-                List<SysResourceDto> operations = new ArrayList<SysResourceDto>();
-
-                for (Method method : obj.getDeclaredMethods()) {
-
-                    if (method.isAnnotationPresent(RequestMapping.class)) {
-                        SysResourceDto operation = new SysResourceDto();
-
-                        Annotation methodAnnotation = method.getAnnotation(RequestMapping.class);
-                        RequestMapping methodAnnotationInfo = (RequestMapping) methodAnnotation;
-
-                        String httpMethod = methodAnnotationInfo.method().length == 0 ? "GET"
-                                : methodAnnotationInfo.method()[0].name();
-                        operation.setPath(String.format("%s#%s#%s", resource.getPath(), methodAnnotationInfo.path()[0].replace("{", "").replace("}", ""),
-                                httpMethod));
-                        operation.setName(String.format("%s(%s)", methodAnnotationInfo.name(), operation.getPath()));
-                        operation.setMethod(httpMethod);
-                        operations.add(operation);
-
-                    }
-                }
-                resource.setChildren(operations);
-                resources.add(resource);
+                sysResourceDto.setChildren(pushManySysResource(list, x.getId()));
+                sysResourceDtos.add(sysResourceDto);
             }
 
-        }
-        return resources;
+        });
+        return sysResourceDtos;
     }
 
     @Override

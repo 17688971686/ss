@@ -28,7 +28,7 @@ public class LogController {
 	@Autowired
 	private LogService logService;
 
-	@RequiresPermissions("log##get")	
+//	@RequiresPermissions("log##get")
 	@RequestMapping(name = "获取日志数据", path = "", method = RequestMethod.GET)
 	public @ResponseBody PageModelDto<LogDto> get(HttpServletRequest request) throws ParseException {
 		ODataObj odataObj = new ODataObj(request);
@@ -38,7 +38,7 @@ public class LogController {
 	}
 
 	// begin#html
-	@RequiresPermissions("log#html/list#get")	
+//	@RequiresPermissions("log#html/list#get")
 	@RequestMapping(name = "日志列表页面", path = "html/list", method = RequestMethod.GET)
 	public String list() {
 		return ctrlName + "/list";
