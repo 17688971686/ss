@@ -283,6 +283,14 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
                 }
             }
         }
+//        else if(!CollectionUtils.isEmpty(odataObj.getFilterList())){
+//            sb2.append(" and t1.");
+//            sb2.append(odataObj.getFilterList().get(0).getFiledName());
+//            sb2.append(" = ");
+//            sb2.append("'");
+//            sb2.append(odataObj.getFilterList().get(0).getValue());
+//            sb2.append("'");
+//        }
 
         sb.append(sb2);
         countQuery = (BigInteger) shenbaoInfoRepo.getSession()

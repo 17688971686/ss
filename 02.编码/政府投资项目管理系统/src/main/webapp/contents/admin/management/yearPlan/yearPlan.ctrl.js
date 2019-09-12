@@ -18,12 +18,13 @@
     	vm.packageType={};
         vm.id=$state.params.id;
         vm.investmentType=$state.params.projectInvestmentType;
-        vm.stage=$state.params.stage;
+        vm.state=$state.params.state;
         vm.isZhudongxiada = true;
         vm.unitId = $state.params.unitid;
         vm.packid = $state.params.packid;
         vm.isZFInvestment = true;
         vm.isYearPlan = true;
+        vm.model.yearPlanStatistics=[];
 
 
         vm.testtest = true;
@@ -122,7 +123,7 @@
         	if(vm.page == 'projectList'){
         		init_projectList();
 			}
-			if(  vm.page='shenbao_record'){
+			if(  vm.page=='shenbao_record'){
                 init_shenbao_record();
 			}
         };
@@ -830,6 +831,20 @@
     		vm.create=function(){    		
     			yearPlanSvc.plan_create(vm);
     		};
+
+            vm.lockYearPlan = function(isLock){
+            	if(isLock){
+                    common.initJqValidation();
+                    var isValid = $('form').valid();
+                    if (!isValid) {
+                        vm.model.hasLock = false;
+                    }
+				}
+			}
+
+            vm.updateLock = function(){
+				vm.model.hasLock = false;
+            }
     	}//init_planBZList 
     	
     	function init_planUpadte(){
@@ -839,21 +854,25 @@
     		};
 
             vm.updateLock = function(){
-                if(vm.model.lockName != window.profile_userId){
+            	if(vm.model.lockName == undefined || vm.model.lockName == null || vm.model.lockName == ''
+                    ){
+                    vm.model.hasLock = false;
+				}else if(vm.model.lockName == window.profile_userId){
+                    vm.model.hasLock = false;
+                    yearPlanSvc.plan_update(vm);
+				}else{
                     common.alert({
                         vm: vm,
                         msg: "无法解锁非本人锁定的计划!",
                     });
-                }else{
-                	vm.model.hasLock = false;
-                    yearPlanSvc.plan_update(vm);
                 }
 
             }
     	}//init_planUpadte
     	
     	function init_planBZ(){
-            yearPlanSvc.grid_yearPlan_shenbaoInfoList(vm);
+            yearPlanSvc.getPlanStatisticsInfo(vm);//获取年度计划统计信息
+
             //查询
             vm.doSearch=function(){
                 vm.filters = [];
@@ -895,7 +914,7 @@
 
     		yearPlanSvc.getPlanById(vm);//查询年度信息
     		yearPlanSvc.getPlanStatisticsInfo(vm);//获取年度计划统计信息
-    		yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm);//查询所有的可添加的申报信息列表 
+    		yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm);//查询所有的可添加的申报信息列表
     		yearPlanSvc.grid_yearPlan_packPlan(vm);//获取年度计划所关联的打包类型
     		yearPlanSvc.grid_packListForYeanPlan(vm);//查询所有可添加的打包类型
 
@@ -922,11 +941,13 @@
 		          }
 		      });
     		//添加项目计划弹出模态框
-    		vm.dialog_addPlan=function(){
+    		vm.dialog_addPlan=function(year){
     			 $('#addPlanList').modal({
                      backdrop: 'static',
                      keyboard:false
                  });
+                vm.year = vm.model.plan.year;
+                yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm);//查询所有的可添加的申报信息列表
     		};
     		//添加打包类型弹出模态框
     		vm.dialog_addPack=function(){
