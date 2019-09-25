@@ -524,8 +524,8 @@
         <profile>
             <id>demo</id>
             <properties>
-                <db.ip>192.168.2.7</db.ip>
-                <db.port>3306</db.port>
+                <db.ip>121.201.66.221</db.ip>
+                <db.port>6100</db.port>
                 <db.username>root</db.username>
                 <db.password>Passw0rd</db.password>
                 <db.name>gm_test</db.name>

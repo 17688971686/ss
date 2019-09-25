@@ -914,7 +914,7 @@
 
     		yearPlanSvc.getPlanById(vm);//查询年度信息
     		yearPlanSvc.getPlanStatisticsInfo(vm);//获取年度计划统计信息
-    		yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm);//查询所有的可添加的申报信息列表
+    		// yearPlanSvc.grid_yearPlan_addShenbaoInfoList(vm);//查询所有的可添加的申报信息列表
     		yearPlanSvc.grid_yearPlan_packPlan(vm);//获取年度计划所关联的打包类型
     		yearPlanSvc.grid_packListForYeanPlan(vm);//查询所有可添加的打包类型
 
@@ -965,7 +965,7 @@
     		vm.search=function(){
     			var filters = [];
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--申报阶段为下一年度计划
-				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件--申报信息的状态为签收状态
+                filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件--申报信息的状态为签收状态
                 filters.push({field:'isIncludYearPlan',operator:'eq',value:false});
                 filters.push({field:'planYear',operator:'eq',value:vm.year});
 

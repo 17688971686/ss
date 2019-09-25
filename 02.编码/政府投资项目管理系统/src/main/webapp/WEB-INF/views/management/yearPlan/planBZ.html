@@ -375,10 +375,17 @@
 						  			<option ng-repeat="x in vm.basicData.projectIndustry_ZF" value="{{x.id}}">{{x.description}}</option>
 						  		</select>
 			  				</td>
-			  				<td class="formAlignRight">计划年度：</td>
-			  				<td>
-			  					<input type="text" style="width:186px;" class="Wdate form-control input-sm content_change" onFocus="WdatePicker({dateFmt:'yyyy'})" onChange="" ng-model="vm.search.planYear"/>
-			  				</td>
+			  				<!--<td class="formAlignRight">计划年度：</td>-->
+			  				<!--<td>-->
+			  					<!--<input type="text" style="width:186px;" class="Wdate form-control input-sm content_change" onFocus="WdatePicker({dateFmt:'yyyy'})" onChange="" ng-model="vm.search.planYear"/>-->
+			  				<!--</td>-->
+							<td class="formAlignRight">项目类别：</td>
+							<td>
+								<select style="height:30px;" ng-model="vm.search.projectCategory_plan">
+									<option value="">---请选择---</option>
+									<option ng-repeat="x in vm.basicData.projectCategory" value="{{x.id}}">{{x.description}}</option>
+								</select>
+							</td>
 			  			</tr>
 			  			<tr>
 			  				<td class="formAlignRight">项目所属单位：</td>
@@ -388,13 +395,18 @@
 						  			<option ng-repeat="x in vm.basicData.userUnit | unique: 'id'" value="{{x.id}}">{{x.unitName}}</option>
 						  		</select>
 			  				</td>	
-			  				<td class="formAlignRight">审批状态：</td>
-			  				<td>
-			  					<select style="height:30px;" ng-model="vm.search.auditState">
-						  			<option value="">---请选择---</option>
-						  			<option ng-repeat="x in vm.basicData.auditState" value="{{x.id}}">{{x.description}}</option>
-						  		</select>
-			  				</td>
+			  				<!--<td class="formAlignRight">审批状态：</td>-->
+			  				<!--<td>-->
+			  					<!--<select style="height:30px;" ng-model="vm.search.auditState">-->
+						  			<!--<option value="">-&#45;&#45;请选择-&#45;&#45;</option>-->
+						  			<!--<option ng-repeat="x in vm.basicData.auditState" value="{{x.id}}">{{x.description}}</option>-->
+						  		<!--</select>-->
+			  				<!--</td>-->
+							<td class="formAlignRight">申请投资：</td>
+							<td>
+								<input type="number" style="width: 100px;" ng-model="vm.search.applyYearInvestStart"> -
+								<input type="number" style="width: 100px;" ng-model="vm.search.applyYearInvestEnd">
+							</td>
 			  				<td class="formAlignRight">建设性质：</td>
 			  				<td>
 			  					<select style="height:30px;" ng-model="vm.search.projectConstrChar">
@@ -404,31 +416,13 @@
 			  				</td>
 			  			</tr>
 						<tr>
-							<td class="formAlignRight">申请投资：</td>
-							<td>
-								<input type="number" style="width: 100px;" ng-model="vm.search.applyYearInvestStart"> -
-								<input type="number" style="width: 100px;" ng-model="vm.search.applyYearInvestEnd">
-							</td>
-							<td class="formAlignRight">项目类别：</td>
-							<td>
-								<select style="height:30px;" ng-model="vm.search.projectCategory_plan">
-									<option value="">---请选择---</option>
-									<option ng-repeat="x in vm.basicData.projectCategory" value="{{x.id}}">{{x.description}}</option>
-								</select>
+
+
+							<td colspan="6">
+								<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()" id="addPlanSearchBtn"><span class="glyphicon glyphicon-search"></span>查询</button>
 							</td>
 						</tr>
-			  			<tr>
-			  				<td class="formAlignRight">打包类型：</td>
-			  				<td>
-			  					<select style="height:30px;" ng-model="vm.search.packageType">
-						  			<option value="">---请选择---</option>
-						  			<option ng-repeat="x in vm.basicData.packageType" value="{{x.id}}">{{x.description}}</option>
-						  		</select>
-			  				</td>
-			  				<td colspan="4">
-			  					<button class="btn btn-success btn-sm pull-right" ng-click="vm.search()" id="addPlanSearchBtn"><span class="glyphicon glyphicon-search"></span>查询</button>
-			  				</td>
-			  			</tr>
+
 			  		</table>
 				</div>
 				<div class="toolbar"></div>

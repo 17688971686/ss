@@ -1090,8 +1090,9 @@ public class ProcessServiceImpl extends AbstractServiceImpl<ShenBaoInfoDto, Shen
         Project project = projectRepo.findById(shenBaoInfo.getProjectId());
         project.setIsIncludLibrary(true);
 //		shenBaoInfo.setEndDate(new SimpleDateFormat("yyyy-MM").format(new Date()));
-        shenBaoInfo.setAuditState(BasicDataConfig.auditState_noAudit);
+        shenBaoInfo.setAuditState(BasicDataConfig.auditState_auditPass);
         shenBaoInfo.setQianshouDate(new Date());
+        shenBaoInfo.setIsIncludLibrary(true);
 //		shenBaoInfo.setComplate(true);
         projectRepo.save(project);
         shenBaoInfoRepo.save(shenBaoInfo);
