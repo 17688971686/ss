@@ -1,7 +1,11 @@
 package cs.controller;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.FileNameMap;
+import java.net.URLEncoder;
+import java.nio.file.spi.FileTypeDetector;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,13 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sun.javafx.tk.FileChooserType;
 import cs.model.exportExcel.*;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -60,7 +68,7 @@ public class CommonController {
 	@Value("${diskPath}")
 	private String diskPath;
 	
-	@RequiresPermissions("common#basicData/identity#get")
+//	@RequiresPermissions("common#basicData/identity#get")
 	@RequestMapping(name="查询基础数据",path="basicData/{identity}",method=RequestMethod.GET)
 	public @ResponseBody List<BasicDataDto> getBasicData(@PathVariable("identity") String identity){
 		if(identity.equals("all")){
@@ -69,7 +77,7 @@ public class CommonController {
 		return basicDataService.getByIdentity(identity);
 	}
 
-	@RequiresPermissions("common#getUser#get")
+//	@RequiresPermissions("common#getUser#get")
 	@RequestMapping(name="查询当前登陆用户的名称",path="getUser",method=RequestMethod.GET)
 	public @ResponseBody StringBuffer getUser(){
 		String user = currentUser.getLoginName();
@@ -136,7 +144,7 @@ public class CommonController {
         return resultMsg;
     }
 	
-	@RequiresPermissions("common#save#post")
+//	@RequiresPermissions("common#save#post")
 	@RequestMapping(name = "上传文件", path = "save", method = RequestMethod.POST)
 	public void Save(@RequestParam("files") MultipartFile file, HttpServletResponse res) throws IOException {
 
@@ -146,10 +154,34 @@ public class CommonController {
             try {
             	//文件名：
             	String fileName=file.getOriginalFilename();
+				String fileName1  = file.getContentType();
+				String extensionName = FilenameUtils.getExtension(fileName);
+				System.out.println(extensionName);
             	//随机名
 				String randomName = Util.generateFileName(fileName);
-                // 转存文件 
-                file.transferTo(new File(diskPath+"/"+randomName));
+				if(extensionName.equals("jpg")&&fileName.endsWith(".jpg") || extensionName.equals("png")&&fileName.endsWith(".png")){
+					File f =null;
+					if(extensionName.equals("jpg")){
+						f = new File(diskPath+"/test.jpg");
+					}else{
+						f = new File(diskPath+"/test.png");
+					}
+
+
+					FileUtils.copyInputStreamToFile(file.getInputStream(), f);
+					if(Util.isImage(f)){
+						Util.markImageByText("光明政府投资管理系统",f.getPath(),diskPath+"/"+randomName,45,new Color(0,0,0),"JPG");
+					}
+
+				}else if(!(extensionName.equals("pdf") || extensionName.equals("tif") || extensionName.equals("docx") ||
+						extensionName.equals("xlsx") || extensionName.equals("dwg") || extensionName.equals("doc")
+						|| extensionName.equals("zip")|| extensionName.equals("rar"))){
+					res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+					response.setMessage("文件上传失败，请再次尝试！");
+				}else{
+					// 转存文件
+					file.transferTo(new File(diskPath+"/"+randomName));
+				}
 
 				Map<String, String> map = new HashMap<>();
 				map.put("originalFilename", fileName);
@@ -168,21 +200,22 @@ public class CommonController {
 
 		objectMapper.writeValue(res.getOutputStream(), response);
 	}
-	
-	@RequiresPermissions("common#remove#post")
+
+
+//	@RequiresPermissions("common#remove#post")
 	@RequestMapping(name = "删除上传文件", path = "remove", method = RequestMethod.POST)
 	public @ResponseBody String remove(HttpServletRequest request){
 		return "true";
 	}
 	
-	@RequiresPermissions("common#userUnit#get")
+//	@RequiresPermissions("common#userUnit#get")
 	@RequestMapping(name="获取建设单位单位数据",path="userUnit",method=RequestMethod.GET)
 	public @ResponseBody PageModelDto<UserUnitInfoDto> getUserUnit(){
 		ODataObj odataObj = new ODataObj();
 		return userUnitInfoService.get(odataObj);
 	}
 	
-	@RequiresPermissions("common#roles#get")
+//	@RequiresPermissions("common#roles#get")
 	@RequestMapping(name="获取角色数据",path="roles",method=RequestMethod.GET)
 	public @ResponseBody List<RoleDto> getRoles(HttpServletRequest request) throws ParseException{
 		ODataObj odataObj = new ODataObj(request);

@@ -1506,6 +1506,15 @@
                     filterable: true
                 },
                 {
+                    field: "projectCategory",
+                    title: "建设单位",
+                    width: 200,
+                    template: function (item) {
+                        return common.getBasicDataDesc(item.projectCategory);
+                    },
+                    filterable: true
+                },
+                {
                     field: "projectConstrChar",
                     title: "建设性质",
                     width: 120,

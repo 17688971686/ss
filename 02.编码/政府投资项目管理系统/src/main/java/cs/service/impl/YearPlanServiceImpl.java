@@ -7,6 +7,7 @@ import com.sn.framework.odata.OdataFilter;
 import cs.common.BasicDataConfig;
 import cs.common.DoubleUtils;
 import cs.common.SQLConfig;
+import cs.common.utils.DateUtils;
 import cs.domain.*;
 import cs.model.DomainDto.*;
 import cs.model.DtoMapper.IMapper;
@@ -35,6 +36,7 @@ import org.hibernate.type.DoubleType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -86,7 +88,10 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     @Autowired
     private IMapper<ProjectDto, Project> projectMapper;
 
-    Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
+    /**
+     * 可以对每个时间域单独修改
+     */
+    Calendar c = Calendar.getInstance();
     int year = c.get(Calendar.YEAR);
 
 
@@ -115,7 +120,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
         if(dto.getHasLock()){
             dto.setLockName(currentUser.getUserId());
         }else{
-            dto.setLockName("");
+            dto.setLockName(null);
         }
 
         YearPlan entity = super.create(dto);
@@ -155,7 +160,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
         if(dto.getHasLock()){
             dto.setLockName(currentUser.getUserId());
         }else{
-            dto.setLockName("");
+            dto.setLockName(null);
         }
         YearPlan entity = super.update(dto, id);
         //关联信息资金安排
@@ -182,6 +187,12 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
                 yearPlan.getPackPlans().remove(i);
             }
             yearPlan.getPackPlans().clear();
+
+            yearPlan.getYearPlanCapitals().forEach(x->{
+                ShenBaoInfo s = shenbaoInfoRepo.findById(x.getShenbaoInfoId());
+                s.setIsIncludYearPlan(false);
+                shenbaoInfoRepo.save(s);
+            });
         }
         super.delete(id);
     }
@@ -385,9 +396,9 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
             }
             if (hasShenBaoInfo) {
                 //通过申报信息id获取项目名称
-                //String projectName = shenbaoInfoRepo.findById(shenBaoId).getProjectName();
-//                throw new IllegalArgumentException("已经存在编制计划中,请重新选择！");
-                return;
+                String projectName = shenbaoInfoRepo.findById(shenBaoId).getProjectName();
+                throw new IllegalArgumentException("已经存在编制计划中,请重新选择！");
+//                return;
             } else {
                 //根据申报信息id创建年度计划资金
                 YearPlanCapital entity = new YearPlanCapital();
@@ -431,7 +442,7 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public void removeYearPlanCapital(String planId, String[] yearPlanCapitalId) {
         YearPlan yearPlan = super.repository.findById(planId);
         List<YearPlanCapital> yearPlanCapitals = yearPlan.getYearPlanCapitals();
@@ -520,12 +531,14 @@ public class YearPlanServiceImpl extends AbstractServiceImpl<YearPlanDto, YearPl
     @Transactional
     public List<ExcelDataLBTJ> getYearPlanShenBaoInfoByLBTJ(String planId) {
         YearPlan yearPlan = super.repository.findById(planId);
-        if (yearPlan != null) {//判空处理
+        //判空处理
+        if (yearPlan != null) {
             List<ExcelDataLBTJ> excelDataLBTJList = new ArrayList<>();
             List query = shenbaoInfoRepo.getSession()
                     .createNativeQuery(SQLConfig.yearPlanByLBTJ)
                     .setParameter("yearPlanId", planId)
-                    .addScalar("planYear", new IntegerType()) //计划年度
+                    //计划年度
+                    .addScalar("planYear", new IntegerType())
                     .addScalar("projectCategory", new StringType())
                     .addScalar("projectSum", new IntegerType())
                     .addScalar("investSum", new DoubleType())

@@ -965,7 +965,11 @@
     		vm.search=function(){
     			var filters = [];
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--申报阶段为下一年度计划
-				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件--申报信息的状态为签收状态 
+				filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件--申报信息的状态为签收状态
+                filters.push({field:'isIncludYearPlan',operator:'eq',value:false});
+                filters.push({field:'planYear',operator:'eq',value:vm.year});
+
+
 				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
 	     			   filters.push({field:'projectName',operator:'contains',value:vm.search.projectName});
 	     		   }
@@ -987,6 +991,15 @@
      		   if(vm.search.packageType !=null && vm.search.packageType !=''){//查询条件--打包类型
      			   filters.push({field:'packageType',operator:'eq',value:vm.search.packageType});
      		   }
+                if(vm.search.projectCategory_plan !=null && vm.search.projectCategory_plan !=''){//查询条件--项目行业
+                    filters.push({field:'projectCategory',operator:'eq',value:vm.search.projectCategory_plan});
+                }
+                if(vm.search.applyYearInvestStart !=null && vm.search.applyYearInvestStart !=''){//查询条件--申请年度投资开始
+                    filters.push({field:'applyYearInvest',operator:'ge',value:vm.search.applyYearInvestStart});
+                }
+                if(vm.search.applyYearInvestEnd !=null && vm.search.applyYearInvestEnd !=''){//查询条件--申请年度投资开结束
+                    filters.push({field:'applyYearInvest',operator:'le',value:vm.search.applyYearInvestEnd});
+                }
      		  vm.addPlanGridOptions.dataSource.filter(filters);
     		};
     		//清空筛选条件

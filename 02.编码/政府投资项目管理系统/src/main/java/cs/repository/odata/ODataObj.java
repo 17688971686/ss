@@ -183,7 +183,15 @@ public class ODataObj {
                             oDataFilterItem.setOperator(filterItems[1]);
                             oDataFilterItem.setValue(Boolean.parseBoolean(filterItems[2]));
                             filterItemsList.add(oDataFilterItem);
-                        } else {// int
+                        } else if(filterItems[1].toLowerCase().contains("ge")
+                                ||filterItems[1].toLowerCase().contains("le")){
+                            ODataFilterItem<Double> oDataFilterItem = new ODataFilterItem<Double>();
+
+                            oDataFilterItem.setField(filterItems[0]);
+                            oDataFilterItem.setOperator(filterItems[1]);
+                            oDataFilterItem.setValue(Double.valueOf(filterItems[2].toString()));
+                            filterItemsList.add(oDataFilterItem);
+                        }else {// int
                             ODataFilterItem<Integer> oDataFilterItem = new ODataFilterItem<Integer>();
 
                             oDataFilterItem.setField(filterItems[0]);
