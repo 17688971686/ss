@@ -170,7 +170,16 @@ public class CommonController {
 
 					FileUtils.copyInputStreamToFile(file.getInputStream(), f);
 					if(Util.isImage(f)){
-						Util.markImageByText("光明政府投资管理系统",f.getPath(),diskPath+"/"+randomName,45,new Color(0,0,0),"JPG");
+						try {
+							Util.markImageByText("光明政府投资管理系统",f.getPath(),diskPath+"/"+randomName,45,new Color(0,0,0),"JPG");
+						}catch (Exception e){
+							e.printStackTrace();
+							res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+							response.setMessage("文件上传失败，请再次尝试！");
+						}
+					}else{
+						res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+						response.setMessage("文件上传失败，请再次尝试！");
 					}
 
 				}else if(!(extensionName.equals("pdf") || extensionName.equals("tif") || extensionName.equals("docx") ||
