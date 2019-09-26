@@ -1124,6 +1124,7 @@
                                 //查询年度计划统计数据--更新页面数据
                                 getPlanStatisticsInfo(vm);
                                 vm.planGridOptions.dataSource.read();//编制申报信息列表数据刷新
+                                location.reload();
                             }
                         });
                     }
@@ -1231,7 +1232,7 @@
                 sort: {
                     field: "createdDate",
                     dir: "desc"
-                }
+                },
             });
             // End:dataSource
 

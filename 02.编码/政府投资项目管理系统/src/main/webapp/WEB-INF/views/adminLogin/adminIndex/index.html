@@ -138,7 +138,6 @@ margin-left:310px;
 						</ul>
 					</li>
 					 -->
-					<@shiro.hasPermission name="我的工作台">
 					<li class="treeview active">
 
 						<a href="javascript:void(0)">
@@ -166,8 +165,9 @@ margin-left:310px;
 									</a>
 									</@shiro.hasPermission>
 									</li>
+                                    <@shiro.hasPermission name="个人待办-计划类">
 									<li>
-										<@shiro.hasPermission name="个人待办-计划类">
+
 										<a href="javascript:void(0)" ui-sref="task_todo_plan">个人待办(计划类)
 											<span id="todoNumber_plan" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
 										</a>
@@ -217,7 +217,6 @@ margin-left:310px;
 			</@shiro.hasPermission>
 			</ul>
 			</li>
-		</@shiro.hasPermission>
 
 		<@shiro.hasPermission name="年度计划管理">
 		<li class="treeview"><a href="javascript:void(0)"> <i
