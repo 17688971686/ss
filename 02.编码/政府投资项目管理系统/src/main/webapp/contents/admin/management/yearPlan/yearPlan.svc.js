@@ -1470,15 +1470,17 @@
                     field: 'processState',
                     operator: 'eq',
                     value: common.basicDataConfig().processState_pass
-                }, {//审批状态为签收
-                    field: 'isIncludYearPlan',
-                    operator: 'eq',
-                    value: false
-                }, {//审批状态为签收
-                    field: 'planYear',
-                    operator: 'eq',
-                    value: vm.year
-                }]
+                }
+                // , {//审批状态为签收
+                //     field: 'isIncludYearPlan',
+                //     operator: 'eq',
+                //     value: false
+                // }, {//审批状态为签收
+                //     field: 'planYear',
+                //     operator: 'eq',
+                //     value: vm.year
+                // }
+                ]
             });
             // End:dataSource
 

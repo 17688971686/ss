@@ -169,8 +169,10 @@ public class CommonController {
 
 
 					FileUtils.copyInputStreamToFile(file.getInputStream(), f);
+//					获取图片宽高属性，如果没有则不是图片
 					if(Util.isImage(f)){
 						try {
+//							给图片添加一个透明的水印
 							Util.markImageByText("光明政府投资管理系统",f.getPath(),diskPath+"/"+randomName,45,new Color(0,0,0),"JPG");
 						}catch (Exception e){
 							e.printStackTrace();

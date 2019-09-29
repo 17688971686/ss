@@ -966,8 +966,8 @@
     			var filters = [];
 				filters.push({field:'projectShenBaoStage',operator:'eq',value:common.basicDataConfig().projectShenBaoStage_nextYearPlan});//默认条件--申报阶段为下一年度计划
                 filters.push({field:'processState',operator:'eq',value:common.basicDataConfig().processState_pass});//默认条件--申报信息的状态为签收状态
-                filters.push({field:'isIncludYearPlan',operator:'eq',value:false});
-                filters.push({field:'planYear',operator:'eq',value:vm.year});
+                // filters.push({field:'isIncludYearPlan',operator:'eq',value:false});
+                // filters.push({field:'planYear',operator:'eq',value:vm.year});
 
 
 				if(vm.search.projectName !=null && vm.search.projectName !=''){//查询条件--项目名称
