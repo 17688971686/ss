@@ -149,76 +149,53 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						</span></a>
 
 					<ul class="treeview-menu">
-						<@shiro.hasPermission name="个人待办">
 						<li class="active treeview"><a href="#/task/todo">个人待办</a>
 							<ul class="treeview-menu">
 								<li>
-									<@shiro.hasPermission name="个人待办-下一年度计划">
 									<a href="javascript:void(0)" ui-sref="task_todo">个人待办(下一 年度计划)
 										<span id="todoNumber" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
 									</a>
-								</@shiro.hasPermission>
 								</li>
 								<li>
-									<@shiro.hasPermission name="个人待办-审批类">										<a href="javascript:void(0)" ui-sref="task_todo_audit">个人待办(审批类)
-									<span id="todoNumber_audit" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
-								</a>
-								</@shiro.hasPermission>
+									<a href="javascript:void(0)" ui-sref="task_todo_audit">个人待办(审批类)
+										<span id="todoNumber_audit" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
+									</a>
 								</li>
 								<li>
-									<@shiro.hasPermission name="个人待办-计划类">
 									<a href="javascript:void(0)" ui-sref="task_todo_plan">个人待办(计划类)
 										<span id="todoNumber_plan" class="label label-danger" style="font-size:9px;padding:0px 5px;"></span>
 									</a>
-								</@shiro.hasPermission>
 								</li>
 								<li>
-									<@shiro.hasPermission name="科室办件-审批类">
 									<a href="javascript:void(0)" ui-sref="task_todo_audit_other">科室办件(审批类)
 									</a>
-								</@shiro.hasPermission>
 								</li>
 								<li>
-									<@shiro.hasPermission name="科室办件-计划类">
 									<a href="javascript:void(0)" ui-sref="task_todo_plan_other">科室办件(计划类)
 									</a>
-								</@shiro.hasPermission>
 								</li>
-								<@shiro.hasPermission name="科室阅卷">
 								<li>
 									<a href="javascript:void(0)" ui-sref="task_todo_yuepi">科室阅卷
 									</a>
 								</li>
-							</@shiro.hasPermission>
 					</ul>
 				</li>
-			</@shiro.hasPermission>
-			<@shiro.hasPermission name="个人已办">
 			<li><a href="javascript:void(0)">个人已办</a>
 				<ul class="treeview-menu">
 					<li>
-						<@shiro.hasPermission name="个人已办-下一年度计划">
 						<a href="javascript:void(0)" ui-sref="task_complete">个人已办 (下一年度计划)</a>
-					</@shiro.hasPermission>
 					</li>
 					<li>
-						<@shiro.hasPermission name="个人已办-审批类">
 						<a href="javascript:void(0)" ui-sref="task_shenPi">个人已办 (审批类)</a>
-					</@shiro.hasPermission>
 					</li>
 					<li>
-						<@shiro.hasPermission name="个人已办-计划类">
 						<a href="javascript:void(0)" ui-sref="task_plan">个人已办 (计划类)</a>
-					</@shiro.hasPermission>
 					</li>
 				</ul>
 			</li>
-		</@shiro.hasPermission>
 		</ul>
 		</li>
-	</@shiro.hasPermission>
 
-	<@shiro.hasPermission name="年度计划管理">
 	<li class="treeview"><a href="javascript:void(0)"> <i
 			class="fa fa-link"></i> <span>年度计划管理</span> <span
 			class="pull-right-container"> <i
@@ -243,12 +220,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				</ul>
 			</li>
 		</ul></li>
-</@shiro.hasPermission>
 
-<@shiro.hasPermission name="计划下达管理">
 <li class="treeview">
 
-	<a href="javascript::"> <i
+	<a href="javascript:"> <i
 			class="fa fa-link"></i> <span>计划下达管理</span> <span
 			class="pull-right-container"> <i
 			class="fa fa-angle-left pull-right"></i>
@@ -257,15 +232,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 	<ul class="treeview-menu">
 		<li>
-			<@shiro.hasPermission name="计划下达">
-			<a href="javascript::" ui-sref="planReach">计划下达</a>
-		</@shiro.hasPermission>
+			<a href="javascript:" ui-sref="planReach">计划下达</a>
 		</li>
 	</ul>
 </li>
-</@shiro.hasPermission>
 
-<@shiro.hasPermission name="项目进度管理">
 <li class="treeview">
 	<a href="javascript:void(0)"> <i
 			class="fa fa-link"></i> <span>项目进度管理</span> <span
@@ -275,20 +246,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	</a>
 	<ul class="treeview-menu">
 		<li>
-			<@shiro.hasPermission name="政府投资项目月报">
 			<a href="javascript:void(0)" ui-sref="monthReport">政府投资项目月报</a>
-		</@shiro.hasPermission>
 		</li>
 		<li>
-			<@shiro.hasPermission name="社会投资项目月报">
 			<a href="javascript:void(0)" ui-sref="monthReport_SH">社会投资项目月报</a>
-		</@shiro.hasPermission>
 		</li>
 	</ul>
 </li>
-</@shiro.hasPermission>
-
-<@shiro.hasPermission name="项目管理">
 <li class="treeview">
 	<a href="javascript:void(0)"> <i
 			class="fa fa-link"></i> <span>项目管理</span> <span
@@ -298,30 +262,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	</a>
 	<ul class="treeview-menu">
 		<li>
-			<@shiro.hasPermission name="政府投资项目">
 			<a href="javascript:void(0)" ui-sref="project">政府投资项目</a>
-		</@shiro.hasPermission>
 		</li>
 		<li>
-			<@shiro.hasPermission name="社会投资项目">
 			<a href="javascript:void(0)" ui-sref="project_SH">社会投资项目</a>
-		</@shiro.hasPermission>
 		</li>
 		<li>
-			<@shiro.hasPermission name="项目统计分析">
 			<a href="javascript:void(0)" ui-sref="projectStatistics">项目统计分析</a>
-		</@shiro.hasPermission>
 		</li>
 		<li>
-			<@shiro.hasPermission name="已拨付数上传">
 			<a href="javascript:void(0)" ui-sref="updateDisbursed">已拨付数上传</a>
-		</@shiro.hasPermission>
 		</li>
 	</ul>
 </li>
-</@shiro.hasPermission>
 
-<@shiro.hasPermission name="目录管理">
 <li class="treeview">
 	<a href="javascript:void(0)">
 		<i class="fa fa-link"></i><span>目录管理</span>
@@ -331,30 +285,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	</a>
 	<ul class="treeview-menu">
 		<li>
-			<@shiro.hasPermission name="投资项目目录管理">
 			<a href="javascript:void(0)" ui-sref="catalog_investment">投资项目目录管理</a>
-		</@shiro.hasPermission>
 		</li>
 		<li>
-			<@shiro.hasPermission name="政策目录管理">
 			<a href="javascript:void(0)" ui-sref="catalog_policy">政策目录管理</a>
-		</@shiro.hasPermission>
 		</li>
 		<li>
-			<@shiro.hasPermission name="部门审批事项目录管理">
 			<a href="javascript:void(0)" ui-sref="catalog_partApprovalMatters">部门审批事项目录管理</a>
-		</@shiro.hasPermission>
 		</li>
 		<li>
-			<@shiro.hasPermission name="中介服务事项目录管理">
 			<a href="javascript:void(0)" ui-sref="catalog_agencyServiceMatters">中介服务事项目录管理</a>
-		</@shiro.hasPermission>
 		</li>
 	</ul>
 </li>
-</@shiro.hasPermission>
 
-<@shiro.hasPermission name="中介服务单位管理">
 <li class="treeview">
 	<a href="javascript:void(0)"> <i
 			class="fa fa-link"></i> <span>中介服务单位管理</span> <span
@@ -364,20 +308,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	</a>
 	<ul class="treeview-menu">
 		<li>
-			<@shiro.hasPermission name="中介服务单位库">
 			<a href="javascript:void(0)" ui-sref="mediationUnitList">中介服务单位库</a>
-		</@shiro.hasPermission>
 		</li>
 		<li>
-			<@shiro.hasPermission name="协审活动安排">
 			<a href="javascript:void(0)" ui-sref="assistReviewList">协审活动安排</a>
-		</@shiro.hasPermission>
 		</li>
 	</ul>
 </li>
-</@shiro.hasPermission>
 
-<@shiro.hasPermission name="信用信息管理">
 <li class="treeview">
 	<a href="javascript:void(0)">
 		<i class="fa fa-link"></i><span>信用信息管理</span>
@@ -387,25 +325,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	</a>
 	<ul class="treeview-menu">
 		<li>
-			<@shiro.hasPermission name="信用异常名录">
 			<a href="javascript:void(0)" ui-sref="credit_illegalNameList">信用异常名录</a>
-		</@shiro.hasPermission>
 		</li>
 		<li>
-			<@shiro.hasPermission name="信用黑名单">
 			<a href="javascript:void(0)" ui-sref="credit_blackList">信用黑名单</a>
-		</@shiro.hasPermission>
 		</li>
 		<li>
-			<@shiro.hasPermission name="项目异常监管">
 			<a href="javascript:void(0)" ui-sref="credit_projectAnomaly">项目异常监管</a>
-		</@shiro.hasPermission>
 		</li>
 	</ul>
 </li>
-</@shiro.hasPermission>
 
-<@shiro.hasPermission name="决策辅助系统">
 <li class="treeview">
 	<a href="javascript:void(0)"> <i
 			class="fa fa-link"></i> <span>决策辅助系统</span> <span
@@ -415,17 +345,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	</a>
 	<ul class="treeview-menu">
 		<li>
-			<@shiro.hasPermission name="统计分析">
 			<a href="javascript:void(0)" ui-sref="statisticalAnalysis">统计分析</a>
-		</@shiro.hasPermission>
 		</li>
 		<!-- <li><a href="javascript:void(0)" ui-sref="projectGeographicalDistribution">项目地理分布</a></li>
         <li><a href="javascript:void(0)" ui-sref="projectProcess">项目全流程</a></li> -->
 	</ul>
 </li>
-</@shiro.hasPermission>
 
-<@shiro.hasPermission name="统一门户管理">
 <li class="treeview">
 	<a href="javascript:void(0)"> <i
 			class="fa fa-link"></i> <span>统一门户管理</span> <span
@@ -434,18 +360,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							</span>
 	</a>
 
-	<@shiro.hasPermission name="通知通告等">
 	<ul class="treeview-menu">
 		<li><a href="#/portal/tzgg">通知通告</a></li>
 		<li><a href="#/portal/zcfg">政策法规</a></li>
 		<li><a href="#/portal/bszn">办事指南</a></li>
 		<li><a href="#/portal/cybg">常用表格</a></li>
 	</ul>
-</@shiro.hasPermission>
 </li>
-</@shiro.hasPermission>
 
-<@shiro.hasPermission name="用户部门管理">
 <li class="treeview">
 	<a href="javascript:void(0)">
 		<i class="fa fa-link"></i>
@@ -455,19 +377,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </span>
 	</a>
 	<ul class="treeview-menu">
-		<@shiro.hasPermission name="用户管理">
 		<li><a href="javascript:void(0)" ui-sref="user">用户管理</a></li>
-	</@shiro.hasPermission>
 
-	<@shiro.hasPermission name="部门管理">
 <li><a href="javascript:void(0)" ui-sref="org">部门管理</a></li>
-</@shiro.hasPermission>
 
 </ul>
 </li>
-</@shiro.hasPermission>
 
-<!--<@shiro.hasPermission name="系统管理">-->
 <li class="treeview">
 	<a href="javascript:void(0)">
 		<i class="fa fa-link"></i>
@@ -477,30 +393,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </span>
 	</a>
 	<ul class="treeview-menu">
-		<!--<@shiro.hasPermission name="角色管理">-->
 		<li><a href="javascript:void(0)" ui-sref="role">角色管理</a></li>
-		<!--</@shiro.hasPermission>-->
 
-		<@shiro.hasPermission name="日志管理">
 		<li><a href="javascript:void(0)" ui-sref="log">日志管理</a></li>
-	</@shiro.hasPermission>
 
-	<!--<@shiro.hasPermission name="菜单管理">-->
 <li name="trigger"><a href="javascript:void(0)" ui-sref="roleMenu">菜单管理</a></li>
-<!--</@shiro.hasPermission>-->
 
-<@shiro.hasPermission name="基础数据管理">
 <li><a href="#/basicData">基础数据管理</a></li>
-</@shiro.hasPermission>
 
-<@shiro.hasPermission name="系统配置">
 
 <li><a href="javascript:void(0)" ui-sref="sysConfig">系统配置</a></li>
-</@shiro.hasPermission>
 
-<@shiro.hasPermission name="工作日管理">
+
 <li><a href="javascript:void(0)" ui-sref="workday">工作日管理</a></li>
-</@shiro.hasPermission>
+
 
 </ul>
 </li>
